@@ -1,0 +1,2420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROUMANS — Tienda Oficial</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            appleBg: '#FFFFFF',
+            appleGray: '#F5F5F7',
+            appleDark: '#1D1D1F',
+            appleMuted: '#6E6E73',
+            appleBorder: '#D2D2D7',
+            appleBlue: '#0071E3',
+            appleBlueHover: '#0077ED',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body {
+      background-color: #FFFFFF;
+      color: #1D1D1F;
+      overflow-x: hidden;
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: fadeSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="font-sans bg-white text-[#1D1D1F] selection:bg-[#1D1D1F] selection:text-white">
+
+  <!-- TOAST / NOTIFICACIÓN FLOTANTE (SIN alert()) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-[120] flex flex-col gap-2 pointer-events-none max-w-sm w-[calc(100%-2.5rem)]"></div>
+
+  <!-- ===================================================================== -->
+  <!-- APARTADO 1: TIENDA PÚBLICA (ESTILO APPLE STORE)                       -->
+  <!-- ===================================================================== -->
+  <div id="public-storefront" class="min-h-screen flex flex-col">
+
+    <!-- Barra de Anuncios Superior -->
+    <div id="top-announcement-bar" class="bg-[#1D1D1F] text-white text-xs sm:text-[13px] py-2.5 px-4 text-center font-normal tracking-tight">
+      <span id="announcement-text">Envío seguro a todo el país · Atención personalizada en cada pedido ROUMANS.</span>
+    </div>
+
+    <!-- Header Translúcido estilo Apple -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-[#D2D2D7]/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        
+        <!-- Logo SVG Oficial ROUMANS -->
+        <a href="#" onclick="resetPublicFilters(); return false;" class="flex items-center shrink-0 focus:outline-none group" aria-label="ROUMANS Inicio">
+          <svg class="h-7 sm:h-8 w-auto text-[#1D1D1F] transition-transform duration-300 group-hover:scale-[1.02]" viewBox="0 0 640 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Monograma R Geométrico Diagonal -->
+            <path d="M12 14H86C106 14 118 25 118 43C118 60 107 71 89 72L118 106H91L63 72H45L74 106H48L12 63V48H82C91 48 96 44 96 38C96 32 91 29 82 29H25L12 14Z" fill="currentColor"/>
+            <path d="M12 72L41 106H16L12 101V72Z" fill="currentColor"/>
+            <!-- Tipografía Ancha ROUMANS -->
+            <g fill="currentColor">
+              <!-- R -->
+              <path d="M152 38H206C219 38 226 45 226 56C226 66 220 72 209 74L226 94H208L192 75H167V94H152V38ZM167 50V63H203C209 63 212 60 212 56.5C212 53 209 50 203 50H167Z"/>
+              <!-- O -->
+              <path d="M236 56C236 44 244 38 258 38H292C306 38 314 44 314 56V76C314 88 306 94 292 94H258C244 94 236 88 236 76V56ZM251 57V75C251 80 254 82 260 82H290C296 82 299 80 299 75V57C299 52 296 50 290 50H260C254 50 251 52 251 57Z"/>
+              <!-- U -->
+              <path d="M325 38H340V75C340 80 343 82 349 82H377C383 82 386 80 386 75V38H401V76C401 88 393 94 379 94H347C333 94 325 88 325 76V38Z"/>
+              <!-- M -->
+              <path d="M413 38H431L453 69L475 38H493V94H478V58L453 92L428 58V94H413V38Z"/>
+              <!-- A -->
+              <path d="M532 38H551L581 94H564L558 82H525L519 94H502L532 38ZM541.5 51L531 71H552L541.5 51Z"/>
+              <!-- N -->
+              <path d="M588 38H604L632 74V38H646V94H631L602 57V94H588V38Z" transform="scale(0.84, 1) translate(112, 0)"/>
+            </g>
+          </svg>
+        </a>
+
+        <!-- Buscador Desktop -->
+        <div class="hidden md:flex items-center flex-1 max-w-md mx-4">
+          <div class="relative w-full">
+            <svg class="w-4 h-4 text-[#6E6E73] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input id="public-search-input" type="text" oninput="renderPublicCatalog()" placeholder="Buscar en ROUMANS..."
+              class="w-full bg-[#F5F5F7] text-sm text-[#1D1D1F] placeholder-[#6E6E73] pl-10 pr-4 py-2 rounded-full border border-transparent focus:border-[#D2D2D7] focus:bg-white focus:outline-none transition" />
+          </div>
+        </div>
+
+        <!-- Acciones Header (Facebook, Buscador Móvil, Bolsa) -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="https://www.facebook.com/61572463497545/" target="_blank" rel="noopener noreferrer"
+             class="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] px-3 py-2 rounded-full hover:bg-[#F5F5F7] transition"
+             title="Síguenos en Facebook">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+            <span>Facebook</span>
+          </a>
+
+          <button onclick="toggleMobileSearch()" class="md:hidden p-2.5 rounded-full hover:bg-[#F5F5F7] text-[#1D1D1F] transition" aria-label="Buscar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+
+          <button onclick="openCartDrawer()" class="relative p-2.5 rounded-full hover:bg-[#F5F5F7] text-[#1D1D1F] transition flex items-center gap-1.5" aria-label="Bolsa de compras">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+            <span id="cart-badge" class="bg-[#1D1D1F] text-white text-[11px] font-semibold min-w-[20px] h-5 px-1.5 rounded-full flex items-center justify-center">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda desplegable en móvil -->
+      <div id="mobile-search-bar" class="hidden md:hidden px-4 pb-3">
+        <input id="mobile-search-input" type="text" oninput="syncSearch(this.value)" placeholder="Buscar productos por nombre o código..."
+          class="w-full bg-[#F5F5F7] text-sm text-[#1D1D1F] placeholder-[#6E6E73] px-4 py-2.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+      </div>
+    </header>
+
+    <!-- Hero Minimalista estilo Apple Store -->
+    <section class="bg-white pt-10 pb-8 sm:pt-16 sm:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#F5F5F7]">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="max-w-3xl">
+          <p class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#6E6E73] mb-2">Colección Oficial</p>
+          <h1 id="hero-title" class="text-3xl sm:text-5xl lg:text-[56px] font-semibold tracking-tight leading-[1.08] text-[#1D1D1F]">
+            Tienda ROUMANS. <span class="text-[#6E6E73]">Diseño y precisión en cada detalle.</span>
+          </h1>
+          <p id="hero-subtitle" class="mt-4 text-base sm:text-lg text-[#6E6E73] font-normal max-w-2xl leading-relaxed">
+            Explora nuestro catálogo seleccionado con disponibilidad inmediata, compra directa en línea y atención personalizada.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 shrink-0">
+          <a href="#catalogo-section" class="bg-[#1D1D1F] hover:bg-black text-white text-sm font-medium px-6 py-3 rounded-full transition shadow-sm">
+            Explorar productos
+          </a>
+          <a href="https://www.facebook.com/61572463497545/" target="_blank" rel="noopener noreferrer"
+             class="bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-sm font-medium px-5 py-3 rounded-full transition inline-flex items-center gap-2">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+            Comunidad Facebook
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegación de Categorías (Pills estilo Apple) -->
+    <section id="catalogo-section" class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+      <div class="flex items-center justify-between gap-4 mb-4">
+        <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-[#1D1D1F]">Nuestros Productos</h2>
+        <span id="catalog-count-label" class="text-xs sm:text-sm text-[#6E6E73]"></span>
+      </div>
+      <div id="public-category-pills" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
+        <!-- Se llena dinámicamente -->
+      </div>
+    </section>
+
+    <!-- Grid de Productos -->
+    <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-20 flex-1">
+      <div id="public-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Tarjetas de producto renderizadas dinámicamente -->
+      </div>
+    </main>
+
+    <!-- Footer estilo Apple Store + Redes + Acceso Privado Discreto -->
+    <footer class="bg-[#F5F5F7] border-t border-[#D2D2D7]/70 text-[#6E6E73] text-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-[#D2D2D7]/80">
+          <!-- Marca -->
+          <div>
+            <svg class="h-6 w-auto text-[#1D1D1F] mb-3" viewBox="0 0 640 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 14H86C106 14 118 25 118 43C118 60 107 71 89 72L118 106H91L63 72H45L74 106H48L12 63V48H82C91 48 96 44 96 38C96 32 91 29 82 29H25L12 14Z" fill="currentColor"/>
+              <path d="M12 72L41 106H16L12 101V72Z" fill="currentColor"/>
+              <g fill="currentColor">
+                <path d="M152 38H206C219 38 226 45 226 56C226 66 220 72 209 74L226 94H208L192 75H167V94H152V38ZM167 50V63H203C209 63 212 60 212 56.5C212 53 209 50 203 50H167Z"/>
+                <path d="M236 56C236 44 244 38 258 38H292C306 38 314 44 314 56V76C314 88 306 94 292 94H258C244 94 236 88 236 76V56ZM251 57V75C251 80 254 82 260 82H290C296 82 299 80 299 75V57C299 52 296 50 290 50H260C254 50 251 52 251 57Z"/>
+                <path d="M325 38H340V75C340 80 343 82 349 82H377C383 82 386 80 386 75V38H401V76C401 88 393 94 379 94H347C333 94 325 88 325 76V38Z"/>
+                <path d="M413 38H431L453 69L475 38H493V94H478V58L453 92L428 58V94H413V38Z"/>
+                <path d="M532 38H551L581 94H564L558 82H525L519 94H502L532 38ZM541.5 51L531 71H552L541.5 51Z"/>
+                <path d="M588 38H604L632 74V38H646V94H631L602 57V94H588V38Z" transform="scale(0.84, 1) translate(112, 0)"/>
+              </g>
+            </svg>
+            <p class="leading-relaxed max-w-xs">
+              Productos seleccionados con estándares de calidad superior. Compra fácil, segura y transparente.
+            </p>
+          </div>
+
+          <!-- Enlaces y Atención -->
+          <div>
+            <h4 class="font-semibold text-[#1D1D1F] mb-3">Atención al Cliente</h4>
+            <ul class="space-y-2">
+              <li><button onclick="openCartDrawer()" class="hover:text-[#1D1D1F] transition">Revisar mi bolsa de compras</button></li>
+              <li><a href="#catalogo-section" class="hover:text-[#1D1D1F] transition">Catálogo completo</a></li>
+              <li id="footer-whatsapp-line"></li>
+            </ul>
+          </div>
+
+          <!-- Redes Sociales -->
+          <div>
+            <h4 class="font-semibold text-[#1D1D1F] mb-3">Redes Sociales Oficiales</h4>
+            <p class="mb-3">Síguenos para conocer lanzamientos, promociones y novedades exclusivas.</p>
+            <a href="https://www.facebook.com/61572463497545/" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-2.5 bg-[#1D1D1F] text-white px-4 py-2.5 rounded-full font-medium hover:bg-black transition">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+              <span>Visitar Facebook de ROUMANS</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Copyright y acceso discreto para administrador -->
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© <span id="current-year">2026</span> ROUMANS. Todos los derechos reservados.</p>
+          <div class="flex items-center gap-4">
+            <span id="sync-status-badge" class="hidden sm:inline-flex items-center gap-1.5 text-[11px] text-[#6E6E73]">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Tienda en línea activa
+            </span>
+            <!-- Botón discreto solo para personal autorizado -->
+            <button onclick="openAdminLoginModal()" class="text-[#86868B] hover:text-[#1D1D1F] transition underline-offset-4 hover:underline" title="Acceso interno (Alt + A)">
+              Portal Interno
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL DETALLE DE PRODUCTO CON GALERÍA DE HASTA 8 IMÁGENES             -->
+  <!-- ===================================================================== -->
+  <div id="product-detail-modal" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden my-auto animate-fade-up border border-[#D2D2D7]/50">
+      <div class="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-[#F5F5F7]">
+        <span id="modal-prod-category" class="text-xs font-semibold uppercase tracking-wider text-[#6E6E73]">Categoría</span>
+        <button onclick="closeProductDetailModal()" class="p-2 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] transition" aria-label="Cerrar">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 p-5 sm:p-8 max-h-[85vh] overflow-y-auto">
+        <!-- Galería de hasta 8 imágenes -->
+        <div class="lg:col-span-7 flex flex-col gap-3">
+          <div class="relative bg-[#F5F5F7] rounded-2xl aspect-square sm:aspect-[4/3] flex items-center justify-center overflow-hidden group">
+            <img id="modal-main-image" src="" alt="Producto" class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105" />
+            <!-- Controles Anterior / Siguiente -->
+            <button onclick="navigateModalGallery(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center text-[#1D1D1F] hover:bg-white transition" aria-label="Imagen anterior">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+            </button>
+            <button onclick="navigateModalGallery(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center text-[#1D1D1F] hover:bg-white transition" aria-label="Imagen siguiente">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+            </button>
+            <span id="modal-image-counter" class="absolute bottom-3 right-3 bg-black/70 text-white text-[11px] font-medium px-2.5 py-1 rounded-full">1 / 1</span>
+          </div>
+
+          <!-- Miniaturas (hasta 8) -->
+          <div id="modal-thumbnails" class="grid grid-cols-4 sm:grid-cols-8 gap-2">
+            <!-- Miniaturas dinámicas -->
+          </div>
+        </div>
+
+        <!-- Información y Compra -->
+        <div class="lg:col-span-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-[#6E6E73] mb-1">
+              <span>Código: <strong id="modal-prod-code" class="text-[#1D1D1F]">---</strong></span>
+              <span>·</span>
+              <span id="modal-prod-stock-badge" class="font-medium"></span>
+            </div>
+            <h3 id="modal-prod-title" class="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F] mt-1">Nombre del Producto</h3>
+            <p id="modal-prod-price" class="text-2xl sm:text-3xl font-semibold text-[#1D1D1F] mt-3">$0.00 <span class="text-xs font-normal text-[#6E6E73]">USD</span></p>
+            
+            <div class="mt-5 pt-5 border-t border-[#F5F5F7]">
+              <h4 class="text-xs font-semibold uppercase tracking-wider text-[#6E6E73] mb-2">Descripción</h4>
+              <p id="modal-prod-desc" class="text-sm text-[#1D1D1F]/85 leading-relaxed whitespace-pre-line"></p>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-5 border-t border-[#F5F5F7] space-y-3">
+            <div class="flex items-center justify-between bg-[#F5F5F7] rounded-2xl px-4 py-2.5">
+              <span class="text-sm font-medium text-[#1D1D1F]">Cantidad</span>
+              <div class="flex items-center gap-3">
+                <button onclick="changeModalQty(-1)" class="w-8 h-8 rounded-full bg-white text-[#1D1D1F] font-semibold shadow-sm hover:bg-[#E8E8ED] transition">-</button>
+                <span id="modal-prod-qty" class="w-6 text-center font-semibold text-sm">1</span>
+                <button onclick="changeModalQty(1)" class="w-8 h-8 rounded-full bg-white text-[#1D1D1F] font-semibold shadow-sm hover:bg-[#E8E8ED] transition">+</button>
+              </div>
+            </div>
+
+            <button id="modal-add-to-cart-btn" onclick="addCurrentModalProductToCart()"
+              class="w-full bg-[#1D1D1F] hover:bg-black disabled:bg-[#D2D2D7] disabled:cursor-not-allowed text-white font-medium py-3.5 px-6 rounded-full transition text-sm sm:text-base shadow-sm">
+              Agregar a la bolsa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- DRAWER BOLSA DE COMPRAS Y CHECKOUT (CREACIÓN CLIENTES + VENTAS)       -->
+  <!-- ===================================================================== -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm flex justify-end">
+    <div class="bg-white w-full max-w-lg h-full flex flex-col shadow-2xl animate-fade-up">
+      <!-- Header Bolsa -->
+      <div class="px-6 py-5 border-b border-[#F5F5F7] flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-semibold text-[#1D1D1F]">Tu Bolsa ROUMANS</h3>
+          <p class="text-xs text-[#6E6E73]">Revisa tus artículos y completa tus datos para finalizar</p>
+        </div>
+        <button onclick="closeCartDrawer()" class="p-2 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Cuerpo scrollable -->
+      <div class="flex-1 overflow-y-auto px-6 py-5 space-y-6">
+        <!-- Lista de items -->
+        <div id="cart-items-list" class="space-y-4">
+          <!-- Items dinámicos -->
+        </div>
+
+        <!-- Formulario de Cliente y Pago (visible si hay items) -->
+        <div id="checkout-form-section" class="hidden pt-5 border-t border-[#F5F5F7] space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 class="text-sm font-semibold text-[#1D1D1F]">Datos del Cliente</h4>
+            <button type="button" onclick="lookupCustomerByCedula()" class="text-xs font-medium text-[#0071E3] hover:underline">
+              Buscar por Cédula/RUC
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Cédula / RUC *</label>
+              <input id="chk-cedula" type="text" onblur="lookupCustomerByCedula(true)" placeholder="Ej. 1712345678"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Teléfono / WhatsApp *</label>
+              <input id="chk-telefono" type="tel" placeholder="Ej. 0991234567"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-[#6E6E73] mb-1">Nombres Completos / Razón Social *</label>
+            <input id="chk-nombres" type="text" placeholder="Nombre y Apellido"
+              class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Correo Electrónico</label>
+              <input id="chk-correo" type="email" placeholder="cliente@correo.com"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Método de Pago *</label>
+              <select id="chk-metodo" onchange="toggleBankTransferInfo()"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none">
+                <option value="TRANSFERENCIA">Transferencia Bancaria</option>
+                <option value="EFECTIVO">Efectivo / Contra entrega</option>
+                <option value="TARJETA">Tarjeta de Crédito / Débito</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Info de transferencia -->
+          <div id="chk-bank-info" class="bg-[#F5F5F7] p-3.5 rounded-2xl text-xs text-[#1D1D1F] leading-relaxed">
+            <span class="font-semibold block mb-1">Datos para Transferencia:</span>
+            <p id="chk-bank-text" class="text-[#6E6E73] whitespace-pre-line"></p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-[#6E6E73] mb-1">Dirección de Entrega / Ciudad *</label>
+            <input id="chk-direccion" type="text" placeholder="Calle principal, secundaria, sector y ciudad"
+              class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-[#6E6E73] mb-1">Observación adicional</label>
+            <input id="chk-observacion" type="text" placeholder="Horario preferido, referencias..."
+              class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Totales Bolsa -->
+      <div id="cart-footer" class="hidden px-6 py-5 border-t border-[#F5F5F7] bg-[#F5F5F7]/60 space-y-3">
+        <div class="space-y-1 text-sm">
+          <div class="flex justify-between text-[#6E6E73]">
+            <span>Subtotal</span>
+            <span id="cart-subtotal">$0.00</span>
+          </div>
+          <div id="cart-tax-row" class="flex justify-between text-[#6E6E73]">
+            <span id="cart-tax-label">IVA (0%)</span>
+            <span id="cart-tax">$0.00</span>
+          </div>
+          <div class="flex justify-between text-base font-semibold text-[#1D1D1F] pt-2 border-t border-[#D2D2D7]/60">
+            <span>Total a Pagar</span>
+            <span id="cart-total">$0.00 USD</span>
+          </div>
+        </div>
+        <button onclick="processPublicCheckout()" class="w-full bg-[#1D1D1F] hover:bg-black text-white font-medium py-3.5 rounded-full transition text-sm shadow-sm">
+          Confirmar Pedido y Generar Comprobante
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL COMPROBANTE DE VENTA GENERADO                                   -->
+  <!-- ===================================================================== -->
+  <div id="receipt-modal" class="fixed inset-0 z-[60] hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl animate-fade-up text-center">
+      <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+      </div>
+      <h3 class="text-xl font-semibold text-[#1D1D1F]">¡Pedido Registrado!</h3>
+      <p class="text-xs text-[#6E6E73] mt-1">Tu orden ha sido procesada y el inventario actualizado.</p>
+
+      <div id="receipt-content" class="mt-5 bg-[#F5F5F7] rounded-2xl p-4 text-left text-xs space-y-2 border border-[#D2D2D7]/50">
+        <!-- Detalle comprobante dinámico -->
+      </div>
+
+      <div class="mt-6 flex flex-col gap-2.5">
+        <a id="receipt-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer"
+           class="w-full bg-[#1D1D1F] hover:bg-black text-white font-medium py-3 rounded-full text-sm transition inline-flex items-center justify-center gap-2">
+          <span>Enviar comprobante por WhatsApp</span>
+        </a>
+        <button onclick="closeReceiptModal()" class="w-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] font-medium py-3 rounded-full text-sm transition">
+          Seguir comprando
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL DE AUTENTICACIÓN DE ADMINISTRADOR (OCULTO AL PÚBLICO)           -->
+  <!-- ===================================================================== -->
+  <div id="admin-login-modal" class="fixed inset-0 z-[70] hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-7 shadow-2xl animate-fade-up">
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#1D1D1F]"></span>
+          <h3 class="text-base font-semibold text-[#1D1D1F]">Acceso Administrador</h3>
+        </div>
+        <button onclick="closeAdminLoginModal()" class="p-1.5 rounded-full hover:bg-[#F5F5F7] text-[#6E6E73]">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p class="text-xs text-[#6E6E73] mb-4 leading-relaxed">
+        Área privada de gestión de productos, inventario, ventas y clientes de <strong>ROUMANS</strong>.
+      </p>
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-[#6E6E73] mb-1">Clave de Acceso</label>
+          <input id="admin-password-input" type="password" required placeholder="Ingresa tu clave (defecto: admin123)"
+            class="w-full bg-[#F5F5F7] text-sm px-4 py-3 rounded-xl border border-transparent focus:border-[#1D1D1F] focus:bg-white focus:outline-none" />
+        </div>
+        <button type="submit" class="w-full bg-[#1D1D1F] hover:bg-black text-white font-medium py-3 rounded-full text-sm transition">
+          Ingresar al Panel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APARTADO 2: PANEL PRIVADO DE ADMINISTRADOR                            -->
+  <!-- ===================================================================== -->
+  <div id="admin-panel" class="hidden min-h-screen bg-[#F5F5F7] flex flex-col">
+
+    <!-- Topbar Admin -->
+    <header class="sticky top-0 z-40 bg-white border-b border-[#D2D2D7]/70 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <svg class="h-6 w-auto text-[#1D1D1F]" viewBox="0 0 640 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 14H86C106 14 118 25 118 43C118 60 107 71 89 72L118 106H91L63 72H45L74 106H48L12 63V48H82C91 48 96 44 96 38C96 32 91 29 82 29H25L12 14Z" fill="currentColor"/>
+          <path d="M12 72L41 106H16L12 101V72Z" fill="currentColor"/>
+          <g fill="currentColor">
+            <path d="M152 38H206C219 38 226 45 226 56C226 66 220 72 209 74L226 94H208L192 75H167V94H152V38ZM167 50V63H203C209 63 212 60 212 56.5C212 53 209 50 203 50H167Z"/>
+            <path d="M236 56C236 44 244 38 258 38H292C306 38 314 44 314 56V76C314 88 306 94 292 94H258C244 94 236 88 236 76V56ZM251 57V75C251 80 254 82 260 82H290C296 82 299 80 299 75V57C299 52 296 50 290 50H260C254 50 251 52 251 57Z"/>
+            <path d="M325 38H340V75C340 80 343 82 349 82H377C383 82 386 80 386 75V38H401V76C401 88 393 94 379 94H347C333 94 325 88 325 76V38Z"/>
+            <path d="M413 38H431L453 69L475 38H493V94H478V58L453 92L428 58V94H413V38Z"/>
+            <path d="M532 38H551L581 94H564L558 82H525L519 94H502L532 38ZM541.5 51L531 71H552L541.5 51Z"/>
+            <path d="M588 38H604L632 74V38H646V94H631L602 57V94H588V38Z" transform="scale(0.84, 1) translate(112, 0)"/>
+          </g>
+        </svg>
+        <span class="bg-[#1D1D1F] text-white text-[11px] font-semibold px-2.5 py-0.5 rounded-full">ADMIN</span>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="syncWithGoogleSheets(true)" id="header-sync-btn"
+          class="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] px-3.5 py-2 rounded-full transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+          <span>Sincronizar Sheet</span>
+        </button>
+        <button onclick="exitAdminMode()"
+          class="inline-flex items-center gap-1.5 text-xs font-medium bg-[#1D1D1F] hover:bg-black text-white px-4 py-2 rounded-full transition">
+          <span>Ver Tienda Pública</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navegación Pestañas Admin -->
+    <nav class="bg-white border-b border-[#D2D2D7]/70 px-4 sm:px-6 lg:px-8 overflow-x-auto no-scrollbar">
+      <div class="max-w-7xl mx-auto flex items-center gap-1 sm:gap-2 py-2">
+        <button onclick="switchAdminTab('dashboard')" data-tab="dashboard" class="admin-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition whitespace-nowrap">Resumen</button>
+        <button onclick="switchAdminTab('productos')" data-tab="productos" class="admin-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition whitespace-nowrap">Productos (8 Fotos)</button>
+        <button onclick="switchAdminTab('inventario')" data-tab="inventario" class="admin-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition whitespace-nowrap">Inventario & Kardex</button>
+        <button onclick="switchAdminTab('ventas')" data-tab="ventas" class="admin-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition whitespace-nowrap">Ventas & POS</button>
+        <button onclick="switchAdminTab('clientes')" data-tab="clientes" class="admin-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition whitespace-nowrap">Clientes</button>
+        <button onclick="switchAdminTab('sheets')" data-tab="sheets" class="admin-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition whitespace-nowrap">Google Sheets & Config</button>
+      </div>
+    </nav>
+
+    <!-- Contenido Dinámico Admin -->
+    <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1">
+
+      <!-- TAB 1: DASHBOARD / RESUMEN -->
+      <section id="admin-tab-dashboard" class="admin-tab-panel space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-5 rounded-3xl border border-[#D2D2D7]/50 shadow-sm">
+            <p class="text-xs font-medium text-[#6E6E73]">Ingresos por Ventas</p>
+            <p id="stat-total-sales" class="text-2xl sm:text-3xl font-semibold text-[#1D1D1F] mt-2">$0.00</p>
+            <p id="stat-sales-count" class="text-xs text-[#6E6E73] mt-1">0 ventas registradas</p>
+          </div>
+          <div class="bg-white p-5 rounded-3xl border border-[#D2D2D7]/50 shadow-sm">
+            <p class="text-xs font-medium text-[#6E6E73]">Valor del Inventario (Costo)</p>
+            <p id="stat-inventory-value" class="text-2xl sm:text-3xl font-semibold text-[#1D1D1F] mt-2">$0.00</p>
+            <p id="stat-products-count" class="text-xs text-[#6E6E73] mt-1">0 productos activos</p>
+          </div>
+          <div class="bg-white p-5 rounded-3xl border border-[#D2D2D7]/50 shadow-sm">
+            <p class="text-xs font-medium text-[#6E6E73]">Alertas de Stock Bajo</p>
+            <p id="stat-low-stock" class="text-2xl sm:text-3xl font-semibold text-amber-600 mt-2">0</p>
+            <p class="text-xs text-[#6E6E73] mt-1">Productos ≤ stock mínimo</p>
+          </div>
+          <div class="bg-white p-5 rounded-3xl border border-[#D2D2D7]/50 shadow-sm">
+            <p class="text-xs font-medium text-[#6E6E73]">Clientes Registrados</p>
+            <p id="stat-customers-count" class="text-2xl sm:text-3xl font-semibold text-[#1D1D1F] mt-2">0</p>
+            <p class="text-xs text-[#6E6E73] mt-1">Base de datos comercial</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Alertas de Stock Bajo -->
+          <div class="bg-white p-6 rounded-3xl border border-[#D2D2D7]/50">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-base font-semibold text-[#1D1D1F]">Productos con Stock Bajo</h3>
+              <button onclick="switchAdminTab('inventario')" class="text-xs font-medium text-[#0071E3] hover:underline">Ajustar stock</button>
+            </div>
+            <div id="dashboard-low-stock-list" class="space-y-3 text-sm"></div>
+          </div>
+
+          <!-- Últimas Ventas -->
+          <div class="bg-white p-6 rounded-3xl border border-[#D2D2D7]/50">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-base font-semibold text-[#1D1D1F]">Últimas Ventas</h3>
+              <button onclick="switchAdminTab('ventas')" class="text-xs font-medium text-[#0071E3] hover:underline">Ver todas</button>
+            </div>
+            <div id="dashboard-recent-sales-list" class="space-y-3 text-sm"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: GESTIÓN DE PRODUCTOS (CON 8 IMÁGENES POR PRODUCTO) -->
+      <section id="admin-tab-productos" class="admin-tab-panel hidden space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-semibold text-[#1D1D1F]">Catálogo de Productos</h2>
+            <p class="text-xs text-[#6E6E73]">Gestiona productos con hasta 8 fotografías cada uno y sincronización con Google Sheets.</p>
+          </div>
+          <button onclick="openProductEditor()" class="bg-[#1D1D1F] hover:bg-black text-white text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full transition self-start">
+            + Nuevo Producto
+          </button>
+        </div>
+
+        <!-- Formulario Editor de Producto (Oculto por defecto hasta hacer clic en Nuevo/Editar) -->
+        <div id="product-editor-card" class="hidden bg-white p-6 sm:p-8 rounded-3xl border border-[#D2D2D7]/70 shadow-sm space-y-6">
+          <div class="flex items-center justify-between border-b border-[#F5F5F7] pb-4">
+            <h3 id="product-editor-title" class="text-lg font-semibold text-[#1D1D1F]">Añadir Nuevo Producto</h3>
+            <button onclick="closeProductEditor()" class="text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F]">Cancelar</button>
+          </div>
+
+          <form onsubmit="saveProductForm(event)" class="space-y-6">
+            <input type="hidden" id="prod-edit-id" />
+
+            <!-- Campos de la tabla PRODUCTOS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Código SKU *</label>
+                <input id="prod-codigo" type="text" required placeholder="Ej. ROU-004"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Código de Barras</label>
+                <input id="prod-barras" type="text" placeholder="EAN / UPC"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Nombre del Producto *</label>
+                <input id="prod-nombre" type="text" required placeholder="Ej. Audífonos Studio Pro ROUMANS"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Categoría *</label>
+                <input id="prod-categoria" list="categorias-datalist" required placeholder="Selecciona o escribe"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+                <datalist id="categorias-datalist"></datalist>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Costo Unitario (USD)</label>
+                <input id="prod-costo" type="number" step="0.01" min="0" value="0"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Precio Venta (USD) *</label>
+                <input id="prod-precio" type="number" step="0.01" min="0" required placeholder="0.00"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Stock Actual *</label>
+                <input id="prod-stock" type="number" step="1" min="0" required value="10"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Stock Mínimo</label>
+                <input id="prod-minimo" type="number" step="1" min="0" value="2"
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div class="sm:col-span-3">
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Descripción detallada</label>
+                <textarea id="prod-descripcion" rows="2" placeholder="Características técnicas, materiales, garantía..."
+                  class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]"></textarea>
+              </div>
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-xs font-medium text-[#6E6E73] mb-1">Unidad</label>
+                  <input id="prod-unidad" type="text" value="UND"
+                    class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+                </div>
+                <label class="inline-flex items-center gap-2 cursor-pointer">
+                  <input id="prod-activo" type="checkbox" checked class="rounded text-[#1D1D1F] focus:ring-0" />
+                  <span class="text-xs font-medium text-[#1D1D1F]">Visible en tienda pública</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- GESTOR DE 8 IMÁGENES POR PRODUCTO -->
+            <div class="pt-4 border-t border-[#F5F5F7]">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                <div>
+                  <h4 class="text-sm font-semibold text-[#1D1D1F]">Galería del Producto (Hasta 8 Imágenes)</h4>
+                  <p class="text-xs text-[#6E6E73]">La Imagen #1 será la portada principal. Puedes subir fotos desde tu celular/PC o pegar enlaces URL.</p>
+                </div>
+                <label class="cursor-pointer bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-xs font-medium px-4 py-2 rounded-full transition inline-flex items-center gap-1.5 self-start">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
+                  <span>Subir múltiples fotos</span>
+                  <input type="file" accept="image/*" multiple onchange="handleBulkImageUpload(event)" class="hidden" />
+                </label>
+              </div>
+
+              <!-- 8 Ranuras de Imagen -->
+              <div id="product-8-images-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <!-- Generado dinámicamente para los 8 slots -->
+              </div>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t border-[#F5F5F7]">
+              <button type="button" onclick="closeProductEditor()" class="bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full transition">
+                Cancelar
+              </button>
+              <button type="submit" class="bg-[#1D1D1F] hover:bg-black text-white text-xs sm:text-sm font-medium px-6 py-2.5 rounded-full transition">
+                Guardar Producto
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tabla / Lista de Productos en Admin -->
+        <div class="bg-white rounded-3xl border border-[#D2D2D7]/50 overflow-hidden">
+          <div class="p-4 border-b border-[#F5F5F7] flex flex-col sm:flex-row gap-3 justify-between">
+            <input id="admin-prod-search" type="text" oninput="renderAdminProducts()" placeholder="Filtrar productos por código o nombre..."
+              class="bg-[#F5F5F7] text-sm px-4 py-2 rounded-full w-full sm:max-w-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#1D1D1F]" />
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[#F5F5F7] text-[11px] uppercase tracking-wider text-[#6E6E73]">
+                  <th class="py-3.5 px-4">Producto</th>
+                  <th class="py-3.5 px-4">Código</th>
+                  <th class="py-3.5 px-4">Categoría</th>
+                  <th class="py-3.5 px-4">Fotos</th>
+                  <th class="py-3.5 px-4">Precio</th>
+                  <th class="py-3.5 px-4">Stock</th>
+                  <th class="py-3.5 px-4 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-tbody" class="divide-y divide-[#F5F5F7] text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: CONTROL DE INVENTARIO Y MOVIMIENTOS (KARDEX) -->
+      <section id="admin-tab-inventario" class="admin-tab-panel hidden space-y-6">
+        <div class="bg-white p-6 rounded-3xl border border-[#D2D2D7]/50 space-y-4">
+          <h3 class="text-base font-semibold text-[#1D1D1F]">Registrar Movimiento de Inventario</h3>
+          <form onsubmit="registerInventoryMovement(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
+            <div class="lg:col-span-2">
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Producto</label>
+              <select id="mov-product-select" required class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none"></select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Tipo Movimiento</label>
+              <select id="mov-type" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none">
+                <option value="ENTRADA">ENTRADA (+ Stock)</option>
+                <option value="SALIDA_AJUSTE">SALIDA (- Ajuste)</option>
+                <option value="AJUSTE_EXACTO">FIJAR STOCK EXACTO</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Cantidad</label>
+              <input id="mov-qty" type="number" min="0" required placeholder="0"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none" />
+            </div>
+            <div>
+              <button type="submit" class="w-full bg-[#1D1D1F] hover:bg-black text-white text-sm font-medium py-2.5 px-4 rounded-xl transition">
+                Aplicar Ajuste
+              </button>
+            </div>
+            <div class="sm:col-span-2 lg:col-span-5">
+              <input id="mov-motivo" type="text" placeholder="Motivo o referencia (ej. Compra proveedor factura #120, conteo físico...)"
+                class="w-full bg-[#F5F5F7] text-xs px-3.5 py-2 rounded-xl focus:outline-none" />
+            </div>
+          </form>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-[#D2D2D7]/50 overflow-hidden">
+          <div class="px-6 py-4 border-b border-[#F5F5F7]">
+            <h3 class="text-base font-semibold text-[#1D1D1F]">Historial de Movimientos (Kardex)</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[#F5F5F7] text-[11px] uppercase tracking-wider text-[#6E6E73]">
+                  <th class="py-3 px-4">Fecha / Hora</th>
+                  <th class="py-3 px-4">Producto</th>
+                  <th class="py-3 px-4">Tipo</th>
+                  <th class="py-3 px-4">Cant.</th>
+                  <th class="py-3 px-4">Stock Ant. → Nuevo</th>
+                  <th class="py-3 px-4">Motivo / Ref</th>
+                </tr>
+              </thead>
+              <tbody id="admin-movements-tbody" class="divide-y divide-[#F5F5F7] text-xs sm:text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: GESTIÓN DE VENTAS Y PUNTO DE VENTA RÁPIDO -->
+      <section id="admin-tab-ventas" class="admin-tab-panel hidden space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-semibold text-[#1D1D1F]">Registro de Ventas</h2>
+            <p class="text-xs text-[#6E6E73]">Pedidos recibidos desde la web y ventas directas en mostrador.</p>
+          </div>
+          <button onclick="toggleQuickPosForm()" class="bg-[#1D1D1F] hover:bg-black text-white text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full transition self-start">
+            + Registrar Venta Manual
+          </button>
+        </div>
+
+        <!-- Formulario Venta Manual (POS Rápido) -->
+        <div id="quick-pos-card" class="hidden bg-white p-6 rounded-3xl border border-[#D2D2D7]/70 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold text-[#1D1D1F]">Nueva Venta Directa</h3>
+            <button onclick="toggleQuickPosForm()" class="text-xs text-[#6E6E73] hover:text-[#1D1D1F]">Cerrar</button>
+          </div>
+          <form onsubmit="createManualSale(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Cliente</label>
+              <select id="pos-client-select" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none"></select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Producto</label>
+              <select id="pos-product-select" required class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none"></select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Cantidad</label>
+              <input id="pos-qty" type="number" min="1" value="1" required class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Método de Pago</label>
+              <select id="pos-metodo" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none">
+                <option value="EFECTIVO">Efectivo</option>
+                <option value="TRANSFERENCIA">Transferencia</option>
+                <option value="TARJETA">Tarjeta</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2 lg:col-span-4 flex justify-end">
+              <button type="submit" class="bg-[#1D1D1F] hover:bg-black text-white text-sm font-medium px-6 py-2.5 rounded-full transition">
+                Emitir Venta y Descontar Stock
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tabla de Ventas -->
+        <div class="bg-white rounded-3xl border border-[#D2D2D7]/50 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[#F5F5F7] text-[11px] uppercase tracking-wider text-[#6E6E73]">
+                  <th class="py-3.5 px-4">N° Venta</th>
+                  <th class="py-3.5 px-4">Fecha</th>
+                  <th class="py-3.5 px-4">Cliente</th>
+                  <th class="py-3.5 px-4">Artículos</th>
+                  <th class="py-3.5 px-4">Pago</th>
+                  <th class="py-3.5 px-4">Total</th>
+                  <th class="py-3.5 px-4">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="admin-sales-tbody" class="divide-y divide-[#F5F5F7] text-xs sm:text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: GESTIÓN DE CLIENTES -->
+      <section id="admin-tab-clientes" class="admin-tab-panel hidden space-y-6">
+        <div class="bg-white p-6 rounded-3xl border border-[#D2D2D7]/50 space-y-4">
+          <h3 id="client-form-title" class="text-base font-semibold text-[#1D1D1F]">Crear / Editar Cliente</h3>
+          <form onsubmit="saveClientForm(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <input type="hidden" id="cli-edit-id" />
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Cédula / RUC *</label>
+              <input id="cli-cedula" type="text" required placeholder="1712345678001"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Nombres / Razón Social *</label>
+              <input id="cli-nombres" type="text" required placeholder="Nombre completo"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Teléfono *</label>
+              <input id="cli-telefono" type="tel" required placeholder="0999999999"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Correo Electrónico</label>
+              <input id="cli-correo" type="email" placeholder="correo@ejemplo.com"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none" />
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-medium text-[#6E6E73] mb-1">Dirección</label>
+              <input id="cli-direccion" type="text" placeholder="Ciudad, sector, calle"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none" />
+            </div>
+            <div class="sm:col-span-2 lg:col-span-3 flex justify-end gap-2">
+              <button type="button" onclick="resetClientForm()" class="bg-[#F5F5F7] text-[#1D1D1F] text-xs font-medium px-4 py-2.5 rounded-full">Limpiar</button>
+              <button type="submit" class="bg-[#1D1D1F] hover:bg-black text-white text-xs sm:text-sm font-medium px-6 py-2.5 rounded-full transition">Guardar Cliente</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-[#D2D2D7]/50 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[#F5F5F7] text-[11px] uppercase tracking-wider text-[#6E6E73]">
+                  <th class="py-3.5 px-4">Cédula / RUC</th>
+                  <th class="py-3.5 px-4">Nombres</th>
+                  <th class="py-3.5 px-4">Teléfono</th>
+                  <th class="py-3.5 px-4">Correo</th>
+                  <th class="py-3.5 px-4">Dirección</th>
+                  <th class="py-3.5 px-4 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="admin-clients-tbody" class="divide-y divide-[#F5F5F7] text-xs sm:text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: GOOGLE SHEETS & CONFIGURACIÓN -->
+      <section id="admin-tab-sheets" class="admin-tab-panel hidden space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Configuración General de Tienda -->
+          <div class="bg-white p-6 rounded-3xl border border-[#D2D2D7]/50 space-y-4">
+            <h3 class="text-base font-semibold text-[#1D1D1F]">Configuración de la Tienda (CONFIGURACION)</h3>
+            <form onsubmit="saveStoreConfig(event)" class="space-y-3">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-[#6E6E73] mb-1">Impuesto (%)</label>
+                  <input id="cfg-impuesto" type="number" step="0.01" min="0" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl" />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-[#6E6E73] mb-1">WhatsApp Pedidos (con código país)</label>
+                  <input id="cfg-whatsapp" type="text" placeholder="593999999999" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Barra de Anuncio Superior</label>
+                <input id="cfg-anuncio" type="text" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Título Principal (Hero)</label>
+                <input id="cfg-hero-titulo" type="text" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Datos Bancarios para Transferencia</label>
+                <textarea id="cfg-transferencia" rows="3" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl"></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-[#6E6E73] mb-1">Nueva Clave de Administrador</label>
+                <input id="cfg-admin-pass" type="text" class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl" />
+              </div>
+              <button type="submit" class="w-full bg-[#1D1D1F] hover:bg-black text-white text-sm font-medium py-3 rounded-full transition">
+                Guardar Configuración
+              </button>
+            </form>
+          </div>
+
+          <!-- Conexión Directa con su Google Sheet -->
+          <div class="bg-white p-6 rounded-3xl border border-[#D2D2D7]/50 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-semibold text-[#1D1D1F]">Conexión con Google Sheets</h3>
+              <span class="text-[11px] bg-emerald-100 text-emerald-800 font-medium px-2.5 py-0.5 rounded-full">Hoja compatible</span>
+            </div>
+            <p class="text-xs text-[#6E6E73] leading-relaxed">
+              Conecta esta web directamente a tu hoja de cálculo (ID: <code class="bg-[#F5F5F7] px-1.5 py-0.5 rounded text-[#1D1D1F]">1lIv8OpDY2DlXEJEtIDBCHpDoN1RHHTsQ_iijjoSzfyE</code>) pegando la URL de implementación de Google Apps Script.
+            </p>
+            <div class="space-y-2">
+              <label class="block text-xs font-medium text-[#6E6E73]">URL del Web App (Google Apps Script)</label>
+              <input id="cfg-sheets-url" type="url" placeholder="https://script.google.com/macros/s/.../exec"
+                class="w-full bg-[#F5F5F7] text-sm px-3.5 py-2.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#1D1D1F]" />
+              <div class="flex flex-wrap gap-2 pt-1">
+                <button onclick="saveSheetsUrlAndSync()" class="bg-[#1D1D1F] hover:bg-black text-white text-xs font-medium px-4 py-2.5 rounded-full transition">
+                  Conectar y Sincronizar Ahora
+                </button>
+                <button onclick="exportAllDataJson()" class="bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-xs font-medium px-4 py-2.5 rounded-full transition">
+                  Exportar Respaldo JSON
+                </button>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-[#F5F5F7]">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-semibold text-[#1D1D1F]">Código Google Apps Script (Copiar y pegar en Extensiones → Apps Script)</span>
+                <button onclick="copyAppsScriptCode()" class="text-xs font-medium text-[#0071E3] hover:underline">Copiar código</button>
+              </div>
+              <textarea id="apps-script-snippet" readonly rows="8"
+                class="w-full bg-[#F5F5F7] font-mono text-[11px] text-[#1D1D1F] p-3 rounded-xl focus:outline-none"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- LÓGICA DE LA APLICACIÓN (ESTADO, CARRITO, 8 IMÁGENES, ADMIN Y SHEETS) -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. ESQUEMA DE DATOS COMPATIBLE CON GOOGLE SHEETS "ROUMANS"
+    // =========================================================================
+    const STORAGE_KEY = 'roumans_store_db_v1';
+
+    // Imágenes SVG vectoriales de alta estética Apple-style para los productos iniciales
+    function createProductMockSVG(title, subtitle, accentColor, variant = 1) {
+      const shapes = [
+        `<circle cx="400" cy="300" r="145" fill="${accentColor}" opacity="0.12"/><rect x="260" y="180" width="280" height="240" rx="48" fill="#1D1D1F"/><rect x="282" y="202" width="236" height="196" rx="34" fill="#2C2C2E"/><circle cx="400" cy="300" r="54" stroke="${accentColor}" stroke-width="6" fill="none"/>`,
+        `<rect x="230" y="210" width="340" height="180" rx="90" fill="#1D1D1F"/><circle cx="320" cy="300" r="45" fill="${accentColor}"/><circle cx="480" cy="300" r="45" fill="#3A3A3C"/>`,
+        `<polygon points="400,150 540,390 260,390" fill="#1D1D1F"/><circle cx="400" cy="310" r="48" fill="${accentColor}"/>`,
+        `<rect x="290" y="150" width="220" height="300" rx="36" fill="#1D1D1F"/><rect x="310" y="175" width="180" height="220" rx="20" fill="#F5F5F7"/><circle cx="400" cy="422" r="12" fill="${accentColor}"/>`
+      ];
+      const graphic = shapes[(variant - 1) % shapes.length];
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+        <rect width="800" height="600" fill="#F5F5F7"/>
+        ${graphic}
+        <text x="400" y="515" font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#1D1D1F" text-anchor="middle">${title}</text>
+        <text x="400" y="545" font-family="Inter, sans-serif" font-size="14" fill="#6E6E73" text-anchor="middle">${subtitle} · Vista ${variant}</text>
+      </svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    }
+
+    const DEFAULT_STATE = {
+      configuracion: {
+        moneda: 'USD',
+        nombre_negocio: 'ROUMANS',
+        impuesto_porcentaje: 0,
+        prefijo_venta: 'VTA',
+        datos_transferencia: 'Banco Pichincha · Cuenta Corriente #2100458912\nTitular: ROUMANS\nRUC: 1790000000001',
+        whatsapp: '593999999999',
+        anuncio: 'Envío seguro a todo el país · Atención personalizada en cada pedido ROUMANS.',
+        hero_titulo: 'Tienda ROUMANS. Diseño y precisión en cada detalle.',
+        hero_texto: 'Explora nuestro catálogo seleccionado con disponibilidad inmediata, compra directa en línea y atención personalizada.',
+        admin_password: 'admin123',
+        sheets_webapp_url: ''
+      },
+      productos: [
+        {
+          id_producto: 'PROD-001',
+          codigo: 'ROU-001',
+          codigo_barras: '7861000000011',
+          nombre: 'ROUMANS Studio Pro Wireless',
+          categoria: 'Audio',
+          descripcion: 'Sonido de alta fidelidad con cancelación activa de ruido adaptativa, acabado mate minimalista y autonomía de hasta 36 horas continuas.',
+          costo_unitario: 85.00,
+          precio_venta: 149.00,
+          stock_actual: 14,
+          stock_minimo: 3,
+          unidad: 'UND',
+          activo: true,
+          fecha_creacion: '2026-11-10',
+          imagenes: [
+            createProductMockSVG('ROUMANS Studio Pro', 'Acabado Negro Mate', '#0071E3', 1),
+            createProductMockSVG('ROUMANS Studio Pro', 'Detalle Acústico', '#0071E3', 2),
+            createProductMockSVG('ROUMANS Studio Pro', 'Diseño Ergonómico', '#0071E3', 3),
+            createProductMockSVG('ROUMANS Studio Pro', 'Estuche de Carga', '#0071E3', 4)
+          ]
+        },
+        {
+          id_producto: 'PROD-002',
+          codigo: 'ROU-002',
+          codigo_barras: '7861000000028',
+          nombre: 'ROUMANS Chronos Watch S1',
+          categoria: 'Wearables',
+          descripcion: 'Caja de aluminio anodizado ultraligero, pantalla retina siempre activa y sensores avanzados de rendimiento diario.',
+          costo_unitario: 110.00,
+          precio_venta: 199.00,
+          stock_actual: 8,
+          stock_minimo: 2,
+          unidad: 'UND',
+          activo: true,
+          fecha_creacion: '2026-11-12',
+          imagenes: [
+            createProductMockSVG('ROUMANS Chronos S1', 'Aluminio Anodizado', '#10B981', 4),
+            createProductMockSVG('ROUMANS Chronos S1', 'Correa Deportiva', '#10B981', 2),
+            createProductMockSVG('ROUMANS Chronos S1', 'Sensor Óptico', '#10B981', 1)
+          ]
+        },
+        {
+          id_producto: 'PROD-003',
+          codigo: 'ROU-003',
+          codigo_barras: '7861000000035',
+          nombre: 'ROUMANS MagDock 3-en-1',
+          categoria: 'Accesorios',
+          descripcion: 'Estación de carga rápida magnética en aluminio cepillado para smartphone, reloj y audífonos con gestión térmica inteligente.',
+          costo_unitario: 42.00,
+          precio_venta: 79.00,
+          stock_actual: 2,
+          stock_minimo: 3,
+          unidad: 'UND',
+          activo: true,
+          fecha_creacion: '2026-11-14',
+          imagenes: [
+            createProductMockSVG('ROUMANS MagDock 3-en-1', 'Carga Rápida Magnética', '#6366F1', 3),
+            createProductMockSVG('ROUMANS MagDock 3-en-1', 'Base Antideslizante', '#6366F1', 2)
+          ]
+        }
+      ],
+      clientes: [
+        {
+          id_cliente: 'CLI-001',
+          cedula_ruc: '9999999999999',
+          nombres: 'Consumidor Final',
+          telefono: '0999999999',
+          correo: 'ventas@roumans.com',
+          direccion: 'Tienda Principal',
+          fecha_registro: '2026-11-01',
+          activo: true
+        }
+      ],
+      ventas: [],
+      movimientos: [
+        {
+          id_movimiento: 'MOV-001',
+          fecha_hora: '2026-11-10 09:00',
+          id_producto: 'PROD-001',
+          producto_nombre: 'ROUMANS Studio Pro Wireless',
+          tipo: 'ENTRADA',
+          cantidad: 14,
+          stock_anterior: 0,
+          stock_nuevo: 14,
+          motivo: 'Inventario inicial'
+        }
+      ]
+    };
+
+    let state = loadState();
+    let cart = [];
+    let selectedPublicCategory = 'TODAS';
+    let activeModalProduct = null;
+    let activeModalImageIndex = 0;
+    let activeModalQty = 1;
+    let editorImagesBuffer = new Array(8).fill('');
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            ...DEFAULT_STATE,
+            ...parsed,
+            configuracion: { ...DEFAULT_STATE.configuracion, ...(parsed.configuracion || {}) }
+          };
+        }
+      } catch (e) {
+        console.error('Error cargando estado:', e);
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function saveState(triggerAutoSync = true) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        showToast('Almacenamiento lleno. Usa URLs de imágenes o reduce tamaño de fotos.', 'error');
+      }
+      if (triggerAutoSync && state.configuracion.sheets_webapp_url) {
+        syncWithGoogleSheets(false);
+      }
+    }
+
+    // =========================================================================
+    // 2. UTILIDADES DE UI (TOASTS, FORMATO MONEDA, FECHAS)
+    // =========================================================================
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const bg = type === 'error' ? 'bg-red-600 text-white' : type === 'success' ? 'bg-[#1D1D1F] text-white' : 'bg-[#1D1D1F] text-white';
+      el.className = `${bg} pointer-events-auto px-4 py-3 rounded-2xl shadow-xl text-xs sm:text-sm font-medium flex items-center justify-between gap-3 animate-fade-up`;
+      el.innerHTML = `<span>${message}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => el.remove(), 260);
+      }, 3400);
+    }
+
+    function formatUSD(val) {
+      const num = parseFloat(val) || 0;
+      return '$' + num.toFixed(2);
+    }
+
+    function nowFormatted() {
+      const d = new Date();
+      return d.toISOString().slice(0, 16).replace('T', ' ');
+    }
+
+    // =========================================================================
+    // 3. TIENDA PÚBLICA (ESTILO APPLE STORE)
+    // =========================================================================
+    function applyConfigToPublicUI() {
+      const cfg = state.configuracion;
+      document.getElementById('announcement-text').textContent = cfg.anuncio || DEFAULT_STATE.configuracion.anuncio;
+      document.getElementById('hero-title').textContent = cfg.hero_titulo || DEFAULT_STATE.configuracion.hero_titulo;
+      document.getElementById('hero-subtitle').textContent = cfg.hero_texto || DEFAULT_STATE.configuracion.hero_texto;
+      document.getElementById('chk-bank-text').textContent = cfg.datos_transferencia || '';
+      const waLine = document.getElementById('footer-whatsapp-line');
+      if (cfg.whatsapp) {
+        waLine.innerHTML = `<a href="https://wa.me/${cfg.whatsapp.replace(/\D/g, '')}" target="_blank" rel="noopener noreferrer" class="hover:text-[#1D1D1F] transition">WhatsApp Directo: +${cfg.whatsapp.replace(/\D/g, '')}</a>`;
+      }
+    }
+
+    function renderPublicCategories() {
+      const activeProducts = state.productos.filter(p => p.activo);
+      const cats = ['TODAS', ...new Set(activeProducts.map(p => p.categoria).filter(Boolean))];
+      const container = document.getElementById('public-category-pills');
+      container.innerHTML = cats.map(cat => {
+        const isSelected = selectedPublicCategory === cat;
+        const cls = isSelected
+          ? 'bg-[#1D1D1F] text-white shadow-sm'
+          : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]';
+        return `<button onclick="selectPublicCategory('${cat.replace(/'/g, "\\'")}')" class="${cls} px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition whitespace-nowrap">
+          ${cat === 'TODAS' ? 'Todos los productos' : cat}
+        </button>`;
+      }).join('');
+    }
+
+    function selectPublicCategory(cat) {
+      selectedPublicCategory = cat;
+      renderPublicCategories();
+      renderPublicCatalog();
+    }
+
+    function resetPublicFilters() {
+      selectedPublicCategory = 'TODAS';
+      document.getElementById('public-search-input').value = '';
+      const mob = document.getElementById('mobile-search-input');
+      if (mob) mob.value = '';
+      renderPublicCategories();
+      renderPublicCatalog();
+    }
+
+    function toggleMobileSearch() {
+      const bar = document.getElementById('mobile-search-bar');
+      bar.classList.toggle('hidden');
+      if (!bar.classList.contains('hidden')) {
+        document.getElementById('mobile-search-input').focus();
+      }
+    }
+
+    function syncSearch(val) {
+      document.getElementById('public-search-input').value = val;
+      renderPublicCatalog();
+    }
+
+    function renderPublicCatalog() {
+      const query = (document.getElementById('public-search-input').value || '').toLowerCase().trim();
+      const filtered = state.productos.filter(p => {
+        if (!p.activo) return false;
+        const matchCat = selectedPublicCategory === 'TODAS' || p.categoria === selectedPublicCategory;
+        const matchQuery = !query ||
+          p.nombre.toLowerCase().includes(query) ||
+          (p.codigo && p.codigo.toLowerCase().includes(query)) ||
+          (p.descripcion && p.descripcion.toLowerCase().includes(query));
+        return matchCat && matchQuery;
+      });
+
+      document.getElementById('catalog-count-label').textContent = `${filtered.length} ${filtered.length === 1 ? 'producto' : 'productos'}`;
+      const grid = document.getElementById('public-products-grid');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-[#F5F5F7] rounded-3xl p-12 text-center">
+            <p class="text-base font-medium text-[#1D1D1F]">No se encontraron productos</p>
+            <p class="text-xs text-[#6E6E73] mt-1">Intenta con otra categoría o término de búsqueda.</p>
+            <button onclick="resetPublicFilters()" class="mt-4 bg-[#1D1D1F] text-white text-xs font-medium px-5 py-2.5 rounded-full">Ver todo el catálogo</button>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(prod => {
+        const imgs = (prod.imagenes && prod.imagenes.length) ? prod.imagenes : [createProductMockSVG(prod.nombre, prod.categoria, '#1D1D1F', 1)];
+        const inStock = Number(prod.stock_actual) > 0;
+        const photoCount = imgs.length;
+
+        return `
+          <article class="group bg-[#F5F5F7] rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:bg-[#EFEFF2]">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-[11px] font-semibold uppercase tracking-wider text-[#6E6E73]">${prod.categoria || 'ROUMANS'}</span>
+                ${inStock
+                  ? `<span class="text-[11px] font-medium text-emerald-700 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">Disponible (${prod.stock_actual})</span>`
+                  : `<span class="text-[11px] font-medium text-red-600 bg-red-500/10 px-2.5 py-0.5 rounded-full">Agotado</span>`
+                }
+              </div>
+
+              <!-- Imagen Principal clicable -->
+              <div onclick="openProductDetailModal('${prod.id_producto}')"
+                   class="relative aspect-[4/3] bg-white rounded-2xl overflow-hidden cursor-pointer flex items-center justify-center mb-5">
+                <img src="${imgs[0]}" alt="${prod.nombre}" loading="lazy"
+                     onerror="this.src='${createProductMockSVG(prod.nombre, 'ROUMANS', '#1D1D1F', 1)}'"
+                     class="w-full h-full object-contain p-3 transition-transform duration-500 group-hover:scale-105" />
+                ${photoCount > 1 ? `<span class="absolute bottom-2.5 right-2.5 bg-black/65 text-white text-[10px] font-medium px-2 py-0.5 rounded-full">${photoCount} fotos</span>` : ''}
+              </div>
+
+              <h3 onclick="openProductDetailModal('${prod.id_producto}')"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-[#1D1D1F] cursor-pointer group-hover:text-black">
+                ${prod.nombre}
+              </h3>
+              <p class="text-xs text-[#6E6E73] mt-1.5 line-clamp-2 leading-relaxed">
+                ${prod.descripcion || ''}
+              </p>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-[#D2D2D7]/60 flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs text-[#6E6E73] block">Precio</span>
+                <span class="text-xl font-semibold text-[#1D1D1F]">${formatUSD(prod.precio_venta)}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="openProductDetailModal('${prod.id_producto}')"
+                  class="bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-xs font-medium px-3.5 py-2.5 rounded-full transition">
+                  Ver fotos
+                </button>
+                <button onclick="quickAddToCart('${prod.id_producto}')" ${!inStock ? 'disabled' : ''}
+                  class="bg-[#1D1D1F] hover:bg-black disabled:bg-[#D2D2D7] disabled:cursor-not-allowed text-white text-xs font-medium px-4 py-2.5 rounded-full transition">
+                  Comprar
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // 4. MODAL DETALLE DE PRODUCTO CON GALERÍA DE HASTA 8 IMÁGENES
+    // =========================================================================
+    function openProductDetailModal(idProducto) {
+      const prod = state.productos.find(p => p.id_producto === idProducto);
+      if (!prod) return;
+      activeModalProduct = prod;
+      activeModalImageIndex = 0;
+      activeModalQty = 1;
+
+      const imgs = (prod.imagenes && prod.imagenes.length)
+        ? prod.imagenes.slice(0, 8)
+        : [createProductMockSVG(prod.nombre, prod.categoria, '#1D1D1F', 1)];
+
+      document.getElementById('modal-prod-category').textContent = prod.categoria || 'ROUMANS';
+      document.getElementById('modal-prod-code').textContent = prod.codigo || prod.id_producto;
+      document.getElementById('modal-prod-title').textContent = prod.nombre;
+      document.getElementById('modal-prod-price').innerHTML = `${formatUSD(prod.precio_venta)} <span class="text-xs font-normal text-[#6E6E73]">USD</span>`;
+      document.getElementById('modal-prod-desc').textContent = prod.descripcion || 'Producto original ROUMANS.';
+      document.getElementById('modal-prod-qty').textContent = '1';
+
+      const stockBadge = document.getElementById('modal-prod-stock-badge');
+      const addBtn = document.getElementById('modal-add-to-cart-btn');
+      if (Number(prod.stock_actual) > 0) {
+        stockBadge.textContent = `En stock (${prod.stock_actual} disponibles)`;
+        stockBadge.className = 'font-medium text-emerald-700';
+        addBtn.disabled = false;
+        addBtn.textContent = 'Agregar a la bolsa';
+      } else {
+        stockBadge.textContent = 'Agotado temporalmente';
+        stockBadge.className = 'font-medium text-red-600';
+        addBtn.disabled = true;
+        addBtn.textContent = 'Sin stock disponible';
+      }
+
+      // Renderizar miniaturas (hasta 8)
+      const thumbsContainer = document.getElementById('modal-thumbnails');
+      thumbsContainer.innerHTML = imgs.map((url, idx) => `
+        <button onclick="selectModalGalleryImage(${idx})"
+          class="modal-thumb-btn aspect-square rounded-xl bg-[#F5F5F7] overflow-hidden border-2 transition p-1 ${idx === 0 ? 'border-[#1D1D1F]' : 'border-transparent opacity-70 hover:opacity-100'}">
+          <img src="${url}" alt="Miniatura ${idx + 1}" class="w-full h-full object-contain" />
+        </button>
+      `).join('');
+
+      updateModalGalleryDisplay();
+      document.getElementById('product-detail-modal').classList.remove('hidden');
+    }
+
+    function updateModalGalleryDisplay() {
+      if (!activeModalProduct) return;
+      const imgs = (activeModalProduct.imagenes && activeModalProduct.imagenes.length)
+        ? activeModalProduct.imagenes.slice(0, 8)
+        : [createProductMockSVG(activeModalProduct.nombre, 'ROUMANS', '#1D1D1F', 1)];
+
+      document.getElementById('modal-main-image').src = imgs[activeModalImageIndex] || imgs[0];
+      document.getElementById('modal-image-counter').textContent = `${activeModalImageIndex + 1} / ${imgs.length}`;
+
+      document.querySelectorAll('.modal-thumb-btn').forEach((btn, i) => {
+        if (i === activeModalImageIndex) {
+          btn.classList.add('border-[#1D1D1F]');
+          btn.classList.remove('border-transparent', 'opacity-70');
+        } else {
+          btn.classList.remove('border-[#1D1D1F]');
+          btn.classList.add('border-transparent', 'opacity-70');
+        }
+      });
+    }
+
+    function selectModalGalleryImage(index) {
+      activeModalImageIndex = index;
+      updateModalGalleryDisplay();
+    }
+
+    function navigateModalGallery(delta) {
+      if (!activeModalProduct) return;
+      const imgs = (activeModalProduct.imagenes && activeModalProduct.imagenes.length) ? activeModalProduct.imagenes.slice(0, 8) : [1];
+      activeModalImageIndex = (activeModalImageIndex + delta + imgs.length) % imgs.length;
+      updateModalGalleryDisplay();
+    }
+
+    function changeModalQty(delta) {
+      if (!activeModalProduct) return;
+      const maxStock = Math.max(1, Number(activeModalProduct.stock_actual) || 1);
+      activeModalQty = Math.min(maxStock, Math.max(1, activeModalQty + delta));
+      document.getElementById('modal-prod-qty').textContent = String(activeModalQty);
+    }
+
+    function closeProductDetailModal() {
+      document.getElementById('product-detail-modal').classList.add('hidden');
+      activeModalProduct = null;
+    }
+
+    function addCurrentModalProductToCart() {
+      if (!activeModalProduct) return;
+      addToCart(activeModalProduct.id_producto, activeModalQty);
+      closeProductDetailModal();
+      openCartDrawer();
+    }
+
+    // =========================================================================
+    // 5. CARRITO DE COMPRAS, REGISTRO CLIENTES Y PROCESAMIENTO DE VENTAS
+    // =========================================================================
+    function quickAddToCart(idProducto) {
+      addToCart(idProducto, 1);
+    }
+
+    function addToCart(idProducto, qty = 1) {
+      const prod = state.productos.find(p => p.id_producto === idProducto);
+      if (!prod || Number(prod.stock_actual) <= 0) {
+        showToast('Este producto no tiene stock disponible.', 'error');
+        return;
+      }
+
+      const existing = cart.find(item => item.id_producto === idProducto);
+      const currentQty = existing ? existing.cantidad : 0;
+      if (currentQty + qty > Number(prod.stock_actual)) {
+        showToast(`Solo quedan ${prod.stock_actual} unidades disponibles.`, 'error');
+        return;
+      }
+
+      if (existing) {
+        existing.cantidad += qty;
+      } else {
+        cart.push({
+          id_producto: prod.id_producto,
+          codigo: prod.codigo,
+          nombre: prod.nombre,
+          precio_unitario: Number(prod.precio_venta),
+          cantidad: qty,
+          imagen: (prod.imagenes && prod.imagenes[0]) ? prod.imagenes[0] : ''
+        });
+      }
+      updateCartBadge();
+      showToast(`"${prod.nombre}" agregado a tu bolsa.`, 'success');
+    }
+
+    function updateCartBadge() {
+      const totalItems = cart.reduce((acc, item) => acc + item.cantidad, 0);
+      document.getElementById('cart-badge').textContent = String(totalItems);
+    }
+
+    function openCartDrawer() {
+      renderCartDrawer();
+      document.getElementById('cart-drawer').classList.remove('hidden');
+    }
+
+    function closeCartDrawer() {
+      document.getElementById('cart-drawer').classList.add('hidden');
+    }
+
+    function changeCartItemQty(idProducto, delta) {
+      const idx = cart.findIndex(i => i.id_producto === idProducto);
+      if (idx === -1) return;
+      const prod = state.productos.find(p => p.id_producto === idProducto);
+      const maxStock = prod ? Number(prod.stock_actual) : 99;
+      const nextQty = cart[idx].cantidad + delta;
+      if (nextQty <= 0) {
+        cart.splice(idx, 1);
+      } else if (nextQty <= maxStock) {
+        cart[idx].cantidad = nextQty;
+      } else {
+        showToast(`Stock máximo alcanzado (${maxStock} uds).`, 'error');
+      }
+      updateCartBadge();
+      renderCartDrawer();
+    }
+
+    function toggleBankTransferInfo() {
+      const metodo = document.getElementById('chk-metodo').value;
+      const box = document.getElementById('chk-bank-info');
+      box.classList.toggle('hidden', metodo !== 'TRANSFERENCIA');
+    }
+
+    function renderCartDrawer() {
+      const listEl = document.getElementById('cart-items-list');
+      const formSec = document.getElementById('checkout-form-section');
+      const footerSec = document.getElementById('cart-footer');
+
+      if (cart.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-12">
+            <p class="text-base font-medium text-[#1D1D1F]">Tu bolsa está vacía</p>
+            <p class="text-xs text-[#6E6E73] mt-1">Explora la tienda ROUMANS y elige tus productos favoritos.</p>
+          </div>`;
+        formSec.classList.add('hidden');
+        footerSec.classList.add('hidden');
+        return;
+      }
+
+      formSec.classList.remove('hidden');
+      footerSec.classList.remove('hidden');
+      toggleBankTransferInfo();
+
+      listEl.innerHTML = cart.map(item => `
+        <div class="flex items-center gap-3.5 bg-[#F5F5F7] p-3 rounded-2xl">
+          <img src="${item.imagen || createProductMockSVG(item.nombre, '', '#1D1D1F', 1)}" alt="${item.nombre}"
+               class="w-16 h-16 rounded-xl bg-white object-contain p-1.5 shrink-0" />
+          <div class="flex-1 min-w-0">
+            <h4 class="text-sm font-semibold text-[#1D1D1F] truncate">${item.nombre}</h4>
+            <p class="text-xs text-[#6E6E73]">${formatUSD(item.precio_unitario)} c/u</p>
+            <div class="flex items-center gap-2 mt-2">
+              <button onclick="changeCartItemQty('${item.id_producto}', -1)" class="w-6 h-6 rounded-full bg-white text-xs font-bold shadow-sm">-</button>
+              <span class="text-xs font-semibold w-5 text-center">${item.cantidad}</span>
+              <button onclick="changeCartItemQty('${item.id_producto}', 1)" class="w-6 h-6 rounded-full bg-white text-xs font-bold shadow-sm">+</button>
+            </div>
+          </div>
+          <div class="text-right font-semibold text-sm text-[#1D1D1F]">
+            ${formatUSD(item.precio_unitario * item.cantidad)}
+          </div>
+        </div>
+      `).join('');
+
+      const subtotal = cart.reduce((acc, item) => acc + (item.precio_unitario * item.cantidad), 0);
+      const taxPct = Number(state.configuracion.impuesto_porcentaje) || 0;
+      const tax = subtotal * (taxPct / 100);
+      const total = subtotal + tax;
+
+      document.getElementById('cart-subtotal').textContent = formatUSD(subtotal);
+      document.getElementById('cart-tax-label').textContent = `IVA (${taxPct}%)`;
+      document.getElementById('cart-tax').textContent = formatUSD(tax);
+      document.getElementById('cart-total').textContent = `${formatUSD(total)} USD`;
+    }
+
+    function lookupCustomerByCedula(silent = false) {
+      const ced = document.getElementById('chk-cedula').value.trim();
+      if (!ced) return;
+      const found = state.clientes.find(c => c.cedula_ruc === ced);
+      if (found) {
+        document.getElementById('chk-nombres').value = found.nombres || '';
+        document.getElementById('chk-telefono').value = found.telefono || '';
+        document.getElementById('chk-correo').value = found.correo || '';
+        document.getElementById('chk-direccion').value = found.direccion || '';
+        if (!silent) showToast('Datos de cliente recuperados.', 'success');
+      } else if (!silent) {
+        showToast('Cliente nuevo: completa tus datos para registrarte.');
+      }
+    }
+
+    function processPublicCheckout() {
+      if (cart.length === 0) return;
+
+      const cedula = document.getElementById('chk-cedula').value.trim();
+      const nombres = document.getElementById('chk-nombres').value.trim();
+      const telefono = document.getElementById('chk-telefono').value.trim();
+      const correo = document.getElementById('chk-correo').value.trim();
+      const direccion = document.getElementById('chk-direccion').value.trim();
+      const metodoPago = document.getElementById('chk-metodo').value;
+      const observacion = document.getElementById('chk-observacion').value.trim();
+
+      if (!cedula || !nombres || !telefono || !direccion) {
+        showToast('Por favor completa Cédula/RUC, Nombres, Teléfono y Dirección.', 'error');
+        return;
+      }
+
+      // 1. Crear o actualizar Cliente en tabla CLIENTES
+      let cliente = state.clientes.find(c => c.cedula_ruc === cedula);
+      if (cliente) {
+        cliente.nombres = nombres;
+        cliente.telefono = telefono;
+        cliente.correo = correo || cliente.correo;
+        cliente.direccion = direccion;
+      } else {
+        cliente = {
+          id_cliente: 'CLI-' + String(state.clientes.length + 1).padStart(3, '0'),
+          cedula_ruc: cedula,
+          nombres,
+          telefono,
+          correo,
+          direccion,
+          fecha_registro: new Date().toISOString().slice(0, 10),
+          activo: true
+        };
+        state.clientes.push(cliente);
+      }
+
+      // 2. Calcular totales y generar Venta
+      const subtotal = cart.reduce((acc, item) => acc + (item.precio_unitario * item.cantidad), 0);
+      const taxPct = Number(state.configuracion.impuesto_porcentaje) || 0;
+      const impuesto = subtotal * (taxPct / 100);
+      const total = subtotal + impuesto;
+      const numVenta = `${state.configuracion.prefijo_venta || 'VTA'}-${String(state.ventas.length + 1).padStart(4, '0')}`;
+      const fechaHora = nowFormatted();
+
+      const detalles = cart.map((item, index) => ({
+        id_detalle: `DET-${Date.now()}-${index + 1}`,
+        id_producto: item.id_producto,
+        codigo: item.codigo,
+        nombre_producto: item.nombre,
+        cantidad: item.cantidad,
+        precio_unitario: item.precio_unitario,
+        subtotal_linea: item.precio_unitario * item.cantidad
+      }));
+
+      const nuevaVenta = {
+        id_venta: 'V-' + Date.now(),
+        numero_venta: numVenta,
+        fecha_hora: fechaHora,
+        id_cliente: cliente.id_cliente,
+        cliente_nombre: cliente.nombres,
+        cliente_cedula: cliente.cedula_ruc,
+        cliente_telefono: cliente.telefono,
+        subtotal,
+        descuento: 0,
+        impuesto,
+        total,
+        metodo_pago: metodoPago,
+        estado: metodoPago === 'TRANSFERENCIA' ? 'PENDIENTE' : 'PAGADO',
+        observacion,
+        detalles
+      };
+
+      // 3. Descontar Stock y registrar en MOVIMIENTOS
+      detalles.forEach(det => {
+        const prod = state.productos.find(p => p.id_producto === det.id_producto);
+        if (prod) {
+          const stockAnt = Number(prod.stock_actual);
+          const stockNuevo = Math.max(0, stockAnt - det.cantidad);
+          prod.stock_actual = stockNuevo;
+          state.movimientos.unshift({
+            id_movimiento: 'MOV-' + Date.now() + Math.floor(Math.random() * 100),
+            fecha_hora: fechaHora,
+            id_producto: prod.id_producto,
+            producto_nombre: prod.nombre,
+            tipo: 'SALIDA_VENTA',
+            cantidad: det.cantidad,
+            stock_anterior: stockAnt,
+            stock_nuevo: stockNuevo,
+            motivo: `Venta web ${numVenta} - ${cliente.nombres}`
+          });
+        }
+      });
+
+      state.ventas.unshift(nuevaVenta);
+      cart = [];
+      updateCartBadge();
+      saveState(true);
+      closeCartDrawer();
+      renderPublicCatalog();
+      showReceiptModal(nuevaVenta);
+    }
+
+    function showReceiptModal(venta) {
+      const itemsHtml = venta.detalles.map(d => `
+        <div class="flex justify-between">
+          <span>${d.cantidad}x ${d.nombre_producto}</span>
+          <span class="font-medium">${formatUSD(d.subtotal_linea)}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('receipt-content').innerHTML = `
+        <div class="flex justify-between border-b border-[#D2D2D7]/70 pb-2">
+          <span class="font-semibold text-[#1D1D1F]">Comprobante ${venta.numero_venta}</span>
+          <span class="text-[#6E6E73]">${venta.fecha_hora}</span>
+        </div>
+        <div>
+          <p><strong class="text-[#1D1D1F]">Cliente:</strong> ${venta.cliente_nombre} (${venta.cliente_cedula})</p>
+          <p><strong class="text-[#1D1D1F]">Pago:</strong> ${venta.metodo_pago} (${venta.estado})</p>
+        </div>
+        <div class="border-t border-b border-[#D2D2D7]/70 py-2 space-y-1">
+          ${itemsHtml}
+        </div>
+        <div class="flex justify-between text-sm font-semibold text-[#1D1D1F]">
+          <span>Total</span>
+          <span>${formatUSD(venta.total)} USD</span>
+        </div>
+      `;
+
+      const waPhone = (state.configuracion.whatsapp || '').replace(/\D/g, '');
+      const waText = encodeURIComponent(
+        `Hola ROUMANS, acabo de realizar el pedido *${venta.numero_venta}*:\n` +
+        `Cliente: ${venta.cliente_nombre} (${venta.cliente_cedula})\n` +
+        `Total: ${formatUSD(venta.total)} USD\n` +
+        `Método: ${venta.metodo_pago}`
+      );
+      document.getElementById('receipt-whatsapp-btn').href = waPhone
+        ? `https://wa.me/${waPhone}?text=${waText}`
+        : `https://wa.me/?text=${waText}`;
+
+      document.getElementById('receipt-modal').classList.remove('hidden');
+    }
+
+    function closeReceiptModal() {
+      document.getElementById('receipt-modal').classList.add('hidden');
+    }
+
+    // =========================================================================
+    // 6. ACCESO PRIVADO ADMINISTRADOR Y NAVEGACIÓN DE PESTAÑAS
+    // =========================================================================
+    function openAdminLoginModal() {
+      document.getElementById('admin-password-input').value = '';
+      document.getElementById('admin-login-modal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('admin-password-input').focus(), 100);
+    }
+
+    function closeAdminLoginModal() {
+      document.getElementById('admin-login-modal').classList.add('hidden');
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const pass = document.getElementById('admin-password-input').value;
+      const expected = state.configuracion.admin_password || 'admin123';
+      if (pass === expected) {
+        closeAdminLoginModal();
+        enterAdminMode();
+      } else {
+        showToast('Clave incorrecta. Intenta nuevamente.', 'error');
+      }
+    }
+
+    function enterAdminMode() {
+      document.getElementById('public-storefront').classList.add('hidden');
+      document.getElementById('admin-panel').classList.remove('hidden');
+      switchAdminTab('dashboard');
+    }
+
+    function exitAdminMode() {
+      document.getElementById('admin-panel').classList.add('hidden');
+      document.getElementById('public-storefront').classList.remove('hidden');
+      applyConfigToPublicUI();
+      renderPublicCategories();
+      renderPublicCatalog();
+    }
+
+    // Atajo de teclado Alt + A para abrir acceso de administrador
+    document.addEventListener('keydown', (e) => {
+      if (e.altKey && (e.key === 'a' || e.key === 'A')) {
+        e.preventDefault();
+        if (document.getElementById('admin-panel').classList.contains('hidden')) {
+          openAdminLoginModal();
+        }
+      }
+    });
+
+    function switchAdminTab(tabName) {
+      document.querySelectorAll('.admin-tab-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById(`admin-tab-${tabName}`).classList.remove('hidden');
+
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        if (btn.dataset.tab === tabName) {
+          btn.classList.add('bg-[#1D1D1F]', 'text-white');
+          btn.classList.remove('text-[#6E6E73]', 'hover:bg-[#F5F5F7]');
+        } else {
+          btn.classList.remove('bg-[#1D1D1F]', 'text-white');
+          btn.classList.add('text-[#6E6E73]', 'hover:bg-[#F5F5F7]');
+        }
+      });
+
+      if (tabName === 'dashboard') renderAdminDashboard();
+      if (tabName === 'productos') renderAdminProducts();
+      if (tabName === 'inventario') renderAdminInventory();
+      if (tabName === 'ventas') renderAdminSales();
+      if (tabName === 'clientes') renderAdminClients();
+      if (tabName === 'sheets') renderAdminConfigTab();
+    }
+
+    // =========================================================================
+    // 7. MÓDULOS DE ADMINISTRACIÓN (DASHBOARD, 8 FOTOS, INVENTARIO, VENTAS)
+    // =========================================================================
+    function renderAdminDashboard() {
+      const validSales = state.ventas.filter(v => v.estado !== 'ANULADO');
+      const totalIncome = validSales.reduce((acc, v) => acc + Number(v.total), 0);
+      const invValue = state.productos.reduce((acc, p) => acc + (Number(p.costo_unitario || 0) * Number(p.stock_actual || 0)), 0);
+      const lowStockProducts = state.productos.filter(p => Number(p.stock_actual) <= Number(p.stock_minimo || 0));
+
+      document.getElementById('stat-total-sales').textContent = formatUSD(totalIncome);
+      document.getElementById('stat-sales-count').textContent = `${validSales.length} ventas válidas`;
+      document.getElementById('stat-inventory-value').textContent = formatUSD(invValue);
+      document.getElementById('stat-products-count').textContent = `${state.productos.length} productos en catálogo`;
+      document.getElementById('stat-low-stock').textContent = String(lowStockProducts.length);
+      document.getElementById('stat-customers-count').textContent = String(state.clientes.length);
+
+      const lowList = document.getElementById('dashboard-low-stock-list');
+      lowList.innerHTML = lowStockProducts.length === 0
+        ? `<p class="text-xs text-[#6E6E73]">Todos los productos tienen stock saludable.</p>`
+        : lowStockProducts.map(p => `
+            <div class="flex items-center justify-between bg-[#F5F5F7] px-3.5 py-2.5 rounded-2xl">
+              <div>
+                <p class="font-medium text-[#1D1D1F] text-xs">${p.nombre}</p>
+                <p class="text-[11px] text-[#6E6E73]">SKU: ${p.codigo}</p>
+              </div>
+              <span class="text-xs font-semibold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full">Stock: ${p.stock_actual}</span>
+            </div>
+          `).join('');
+
+      const recentSales = document.getElementById('dashboard-recent-sales-list');
+      recentSales.innerHTML = state.ventas.length === 0
+        ? `<p class="text-xs text-[#6E6E73]">Aún no se han registrado ventas.</p>`
+        : state.ventas.slice(0, 5).map(v => `
+            <div class="flex items-center justify-between bg-[#F5F5F7] px-3.5 py-2.5 rounded-2xl">
+              <div>
+                <p class="font-medium text-[#1D1D1F] text-xs">${v.numero_venta} · ${v.cliente_nombre}</p>
+                <p class="text-[11px] text-[#6E6E73]">${v.fecha_hora} · ${v.metodo_pago}</p>
+              </div>
+              <span class="text-xs font-semibold text-[#1D1D1F]">${formatUSD(v.total)}</span>
+            </div>
+          `).join('');
+    }
+
+    // --- GESTOR DE PRODUCTOS Y 8 IMÁGENES ---
+    function openProductEditor(idProducto = null) {
+      const card = document.getElementById('product-editor-card');
+      card.classList.remove('hidden');
+
+      // Poblar datalist de categorías existentes
+      const cats = [...new Set(state.productos.map(p => p.categoria).filter(Boolean))];
+      document.getElementById('categorias-datalist').innerHTML = cats.map(c => `<option value="${c}">`).join('');
+
+      if (idProducto) {
+        const prod = state.productos.find(p => p.id_producto === idProducto);
+        if (!prod) return;
+        document.getElementById('product-editor-title').textContent = `Editar Producto: ${prod.nombre}`;
+        document.getElementById('prod-edit-id').value = prod.id_producto;
+        document.getElementById('prod-codigo').value = prod.codigo || '';
+        document.getElementById('prod-barras').value = prod.codigo_barras || '';
+        document.getElementById('prod-nombre').value = prod.nombre || '';
+        document.getElementById('prod-categoria').value = prod.categoria || '';
+        document.getElementById('prod-costo').value = prod.costo_unitario ?? 0;
+        document.getElementById('prod-precio').value = prod.precio_venta ?? 0;
+        document.getElementById('prod-stock').value = prod.stock_actual ?? 0;
+        document.getElementById('prod-minimo').value = prod.stock_minimo ?? 2;
+        document.getElementById('prod-descripcion').value = prod.descripcion || '';
+        document.getElementById('prod-unidad').value = prod.unidad || 'UND';
+        document.getElementById('prod-activo').checked = prod.activo !== false;
+
+        editorImagesBuffer = new Array(8).fill('');
+        (prod.imagenes || []).slice(0, 8).forEach((url, i) => {
+          editorImagesBuffer[i] = url;
+        });
+      } else {
+        document.getElementById('product-editor-title').textContent = 'Añadir Nuevo Producto (Hasta 8 Imágenes)';
+        document.getElementById('prod-edit-id').value = '';
+        document.getElementById('prod-codigo').value = `ROU-${String(state.productos.length + 1).padStart(3, '0')}`;
+        document.getElementById('prod-barras').value = '';
+        document.getElementById('prod-nombre').value = '';
+        document.getElementById('prod-categoria').value = '';
+        document.getElementById('prod-costo').value = '0';
+        document.getElementById('prod-precio').value = '';
+        document.getElementById('prod-stock').value = '10';
+        document.getElementById('prod-minimo').value = '2';
+        document.getElementById('prod-descripcion').value = '';
+        document.getElementById('prod-unidad').value = 'UND';
+        document.getElementById('prod-activo').checked = true;
+        editorImagesBuffer = new Array(8).fill('');
+      }
+
+      render8ImageSlots();
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeProductEditor() {
+      document.getElementById('product-editor-card').classList.add('hidden');
+    }
+
+    function render8ImageSlots() {
+      const container = document.getElementById('product-8-images-grid');
+      container.innerHTML = editorImagesBuffer.map((imgUrl, idx) => `
+        <div class="bg-[#F5F5F7] rounded-2xl p-3 border border-[#D2D2D7]/60 flex flex-col gap-2">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-semibold text-[#1D1D1F]">${idx === 0 ? 'Imagen #1 (Portada)' : `Imagen #${idx + 1}`}</span>
+            ${imgUrl ? `<button type="button" onclick="clearImageSlot(${idx})" class="text-red-600 hover:underline">Quitar</button>` : ''}
+          </div>
+
+          <div class="aspect-square bg-white rounded-xl overflow-hidden flex items-center justify-center relative border border-[#D2D2D7]/40">
+            ${imgUrl
+              ? `<img src="${imgUrl}" alt="Slot ${idx + 1}" class="w-full h-full object-contain p-1.5" />`
+              : `<span class="text-[11px] text-[#86868B] text-center px-2">Sin foto</span>`
+            }
+          </div>
+
+          <input type="text" value="${imgUrl.startsWith('data:') ? '' : imgUrl}"
+                 onchange="updateImageSlotUrl(${idx}, this.value)"
+                 placeholder="${imgUrl.startsWith('data:') ? 'Imagen subida localmente' : 'Pegar URL https://...'}"
+                 class="w-full bg-white text-[11px] px-2.5 py-1.5 rounded-lg border border-[#D2D2D7]/60 focus:outline-none" />
+
+          <label class="cursor-pointer bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[11px] font-medium py-1.5 px-2 rounded-lg text-center border border-[#D2D2D7]/60 transition">
+            Subir archivo
+            <input type="file" accept="image/*" onchange="handleSingleImageUpload(event, ${idx})" class="hidden" />
+          </label>
+        </div>
+      `).join('');
+    }
+
+    function updateImageSlotUrl(index, url) {
+      editorImagesBuffer[index] = url.trim();
+      render8ImageSlots();
+    }
+
+    function clearImageSlot(index) {
+      editorImagesBuffer[index] = '';
+      render8ImageSlots();
+    }
+
+    // Optimización automática de imágenes subidas (redimensiona a max 900px para velocidad y compatibilidad)
+    function compressImageFile(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_DIM = 900;
+            let w = img.width;
+            let h = img.height;
+            if (w > MAX_DIM || h > MAX_DIM) {
+              if (w > h) { h = Math.round((h * MAX_DIM) / w); w = MAX_DIM; }
+              else { w = Math.round((w * MAX_DIM) / h); h = MAX_DIM; }
+            }
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.82));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleSingleImageUpload(event, slotIndex) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const dataUrl = await compressImageFile(file);
+      editorImagesBuffer[slotIndex] = dataUrl;
+      render8ImageSlots();
+    }
+
+    async function handleBulkImageUpload(event) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+      let fileIdx = 0;
+      for (let i = 0; i < 8 && fileIdx < files.length; i++) {
+        if (!editorImagesBuffer[i]) {
+          editorImagesBuffer[i] = await compressImageFile(files[fileIdx]);
+          fileIdx++;
+        }
+      }
+      render8ImageSlots();
+      showToast(`${fileIdx} imagen(es) cargada(s) en la galería.`, 'success');
+    }
+
+    function saveProductForm(e) {
+      e.preventDefault();
+      const editId = document.getElementById('prod-edit-id').value;
+      const imagenesLimpias = editorImagesBuffer.filter(u => u && u.trim() !== '').slice(0, 8);
+
+      const prodData = {
+        codigo: document.getElementById('prod-codigo').value.trim(),
+        codigo_barras: document.getElementById('prod-barras').value.trim(),
+        nombre: document.getElementById('prod-nombre').value.trim(),
+        categoria: document.getElementById('prod-categoria').value.trim() || 'General',
+        costo_unitario: parseFloat(document.getElementById('prod-costo').value) || 0,
+        precio_venta: parseFloat(document.getElementById('prod-precio').value) || 0,
+        stock_actual: parseInt(document.getElementById('prod-stock').value, 10) || 0,
+        stock_minimo: parseInt(document.getElementById('prod-minimo').value, 10) || 0,
+        descripcion: document.getElementById('prod-descripcion').value.trim(),
+        unidad: document.getElementById('prod-unidad').value.trim() || 'UND',
+        activo: document.getElementById('prod-activo').checked,
+        imagenes: imagenesLimpias,
+        imagen_url: imagenesLimpias[0] || ''
+      };
+
+      if (editId) {
+        const idx = state.productos.findIndex(p => p.id_producto === editId);
+        if (idx !== -1) {
+          state.productos[idx] = { ...state.productos[idx], ...prodData };
+          showToast('Producto actualizado correctamente.', 'success');
+        }
+      } else {
+        const nuevo = {
+          id_producto: 'PROD-' + Date.now(),
+          fecha_creacion: new Date().toISOString().slice(0, 10),
+          ...prodData
+        };
+        state.productos.unshift(nuevo);
+        state.movimientos.unshift({
+          id_movimiento: 'MOV-' + Date.now(),
+          fecha_hora: nowFormatted(),
+          id_producto: nuevo.id_producto,
+          producto_nombre: nuevo.nombre,
+          tipo: 'ENTRADA',
+          cantidad: nuevo.stock_actual,
+          stock_anterior: 0,
+          stock_nuevo: nuevo.stock_actual,
+          motivo: 'Creación de producto'
+        });
+        showToast('Nuevo producto añadido al catálogo.', 'success');
+      }
+
+      saveState(true);
+      closeProductEditor();
+      renderAdminProducts();
+    }
+
+    function deleteProduct(idProducto) {
+      state.productos = state.productos.filter(p => p.id_producto !== idProducto);
+      saveState(true);
+      renderAdminProducts();
+      showToast('Producto eliminado del catálogo.');
+    }
+
+    function renderAdminProducts() {
+      const q = (document.getElementById('admin-prod-search').value || '').toLowerCase().trim();
+      const filtered = state.productos.filter(p =>
+        !q || p.nombre.toLowerCase().includes(q) || (p.codigo && p.codigo.toLowerCase().includes(q))
+      );
+
+      const tbody = document.getElementById('admin-products-tbody');
+      tbody.innerHTML = filtered.map(p => {
+        const imgs = p.imagenes || [];
+        const thumb = imgs[0] || createProductMockSVG(p.nombre, '', '#1D1D1F', 1);
+        const lowStock = Number(p.stock_actual) <= Number(p.stock_minimo || 0);
+        return `
+          <tr class="hover:bg-[#F5F5F7]/60">
+            <td class="py-3.5 px-4">
+              <div class="flex items-center gap-3">
+                <img src="${thumb}" class="w-11 h-11 rounded-xl bg-[#F5F5F7] object-contain p-1 shrink-0" />
+                <div>
+                  <p class="font-medium text-[#1D1D1F]">${p.nombre}</p>
+                  <span class="text-[11px] ${p.activo ? 'text-emerald-700' : 'text-[#6E6E73]'}">${p.activo ? '● Visible en tienda' : '○ Oculto'}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-3.5 px-4 text-xs font-mono text-[#6E6E73]">${p.codigo}</td>
+            <td class="py-3.5 px-4 text-xs">${p.categoria}</td>
+            <td class="py-3.5 px-4">
+              <span class="bg-[#F5F5F7] text-[#1D1D1F] text-xs font-medium px-2.5 py-1 rounded-full">${imgs.length} / 8</span>
+            </td>
+            <td class="py-3.5 px-4 font-semibold">${formatUSD(p.precio_venta)}</td>
+            <td class="py-3.5 px-4">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full ${lowStock ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+                ${p.stock_actual} ${p.unidad || 'UND'}
+              </span>
+            </td>
+            <td class="py-3.5 px-4 text-right space-x-2 whitespace-nowrap">
+              <button onclick="openProductEditor('${p.id_producto}')" class="text-xs font-medium text-[#0071E3] hover:underline">Editar</button>
+              <button onclick="deleteProduct('${p.id_producto}')" class="text-xs font-medium text-red-600 hover:underline">Eliminar</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // --- INVENTARIO Y MOVIMIENTOS ---
+    function renderAdminInventory() {
+      const sel = document.getElementById('mov-product-select');
+      sel.innerHTML = state.productos.map(p => `<option value="${p.id_producto}">${p.codigo} - ${p.nombre} (Stock: ${p.stock_actual})</option>`).join('');
+
+      const tbody = document.getElementById('admin-movements-tbody');
+      tbody.innerHTML = state.movimientos.map(m => `
+        <tr>
+          <td class="py-3 px-4 text-xs text-[#6E6E73] whitespace-nowrap">${m.fecha_hora}</td>
+          <td class="py-3 px-4 font-medium text-[#1D1D1F]">${m.producto_nombre}</td>
+          <td class="py-3 px-4">
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${m.tipo === 'ENTRADA' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+              ${m.tipo}
+            </span>
+          </td>
+          <td class="py-3 px-4 font-semibold">${m.cantidad}</td>
+          <td class="py-3 px-4 text-xs">${m.stock_anterior} → <strong>${m.stock_nuevo}</strong></td>
+          <td class="py-3 px-4 text-xs text-[#6E6E73]">${m.motivo || '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function registerInventoryMovement(e) {
+      e.preventDefault();
+      const prodId = document.getElementById('mov-product-select').value;
+      const tipo = document.getElementById('mov-type').value;
+      const qty = parseInt(document.getElementById('mov-qty').value, 10);
+      const motivo = document.getElementById('mov-motivo').value.trim();
+
+      const prod = state.productos.find(p => p.id_producto === prodId);
+      if (!prod || isNaN(qty) || qty < 0) return;
+
+      const stockAnt = Number(prod.stock_actual);
+      let stockNuevo = stockAnt;
+      if (tipo === 'ENTRADA') stockNuevo = stockAnt + qty;
+      else if (tipo === 'SALIDA_AJUSTE') stockNuevo = Math.max(0, stockAnt - qty);
+      else if (tipo === 'AJUSTE_EXACTO') stockNuevo = qty;
+
+      prod.stock_actual = stockNuevo;
+      state.movimientos.unshift({
+        id_movimiento: 'MOV-' + Date.now(),
+        fecha_hora: nowFormatted(),
+        id_producto: prod.id_producto,
+        producto_nombre: prod.nombre,
+        tipo,
+        cantidad: qty,
+        stock_anterior: stockAnt,
+        stock_nuevo: stockNuevo,
+        motivo: motivo || 'Ajuste manual de inventario'
+      });
+
+      document.getElementById('mov-qty').value = '';
+      document.getElementById('mov-motivo').value = '';
+      saveState(true);
+      renderAdminInventory();
+      showToast('Inventario actualizado y registrado en Kardex.', 'success');
+    }
+
+    // --- VENTAS & POS MANUAL ---
+    function toggleQuickPosForm() {
+      const card = document.getElementById('quick-pos-card');
+      card.classList.toggle('hidden');
+      if (!card.classList.contains('hidden')) {
+        document.getElementById('pos-client-select').innerHTML = state.clientes.map(c => `<option value="${c.id_cliente}">${c.nombres} (${c.cedula_ruc})</option>`).join('');
+        document.getElementById('pos-product-select').innerHTML = state.productos.filter(p => p.stock_actual > 0).map(p => `<option value="${p.id_producto}">${p.nombre} - ${formatUSD(p.precio_venta)} (Disp: ${p.stock_actual})</option>`).join('');
+      }
+    }
+
+    function createManualSale(e) {
+      e.preventDefault();
+      const cliId = document.getElementById('pos-client-select').value;
+      const prodId = document.getElementById('pos-product-select').value;
+      const qty = parseInt(document.getElementById('pos-qty').value, 10) || 1;
+      const metodo = document.getElementById('pos-metodo').value;
+
+      const cliente = state.clientes.find(c => c.id_cliente === cliId) || state.clientes[0];
+      const prod = state.productos.find(p => p.id_producto === prodId);
+
+      if (!prod || Number(prod.stock_actual) < qty) {
+        showToast('Stock insuficiente para realizar esta venta.', 'error');
+        return;
+      }
+
+      const subtotal = Number(prod.precio_venta) * qty;
+      const taxPct = Number(state.configuracion.impuesto_porcentaje) || 0;
+      const impuesto = subtotal * (taxPct / 100);
+      const total = subtotal + impuesto;
+      const numVenta = `${state.configuracion.prefijo_venta || 'VTA'}-${String(state.ventas.length + 1).padStart(4, '0')}`;
+      const fechaHora = nowFormatted();
+
+      const venta = {
+        id_venta: 'V-' + Date.now(),
+        numero_venta: numVenta,
+        fecha_hora: fechaHora,
+        id_cliente: cliente.id_cliente,
+        cliente_nombre: cliente.nombres,
+        cliente_cedula: cliente.cedula_ruc,
+        cliente_telefono: cliente.telefono,
+        subtotal,
+        descuento: 0,
+        impuesto,
+        total,
+        metodo_pago: metodo,
+        estado: 'PAGADO',
+        observacion: 'Venta directa en panel administrativo',
+        detalles: [{
+          id_detalle: 'DET-' + Date.now(),
+          id_producto: prod.id_producto,
+          codigo: prod.codigo,
+          nombre_producto: prod.nombre,
+          cantidad: qty,
+          precio_unitario: Number(prod.precio_venta),
+          subtotal_linea: subtotal
+        }]
+      };
+
+      const stockAnt = Number(prod.stock_actual);
+      prod.stock_actual = stockAnt - qty;
+      state.movimientos.unshift({
+        id_movimiento: 'MOV-' + Date.now(),
+        fecha_hora: fechaHora,
+        id_producto: prod.id_producto,
+        producto_nombre: prod.nombre,
+        tipo: 'SALIDA_VENTA',
+        cantidad: qty,
+        stock_anterior: stockAnt,
+        stock_nuevo: prod.stock_actual,
+        motivo: `Venta directa ${numVenta}`
+      });
+
+      state.ventas.unshift(venta);
+      saveState(true);
+      toggleQuickPosForm();
+      renderAdminSales();
+      showToast(`Venta ${numVenta} registrada correctamente.`, 'success');
+    }
+
+    function updateSaleStatus(idVenta, nuevoEstado) {
+      const v = state.ventas.find(x => x.id_venta === idVenta);
+      if (!v) return;
+      v.estado = nuevoEstado;
+      saveState(true);
+      showToast(`Estado de ${v.numero_venta} actualizado a ${nuevoEstado}.`);
+    }
+
+    function renderAdminSales() {
+      const tbody = document.getElementById('admin-sales-tbody');
+      if (state.ventas.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-xs text-[#6E6E73]">No hay ventas registradas todavía.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = state.ventas.map(v => `
+        <tr>
+          <td class="py-3.5 px-4 font-semibold text-[#1D1D1F]">${v.numero_venta}</td>
+          <td class="py-3.5 px-4 text-xs text-[#6E6E73] whitespace-nowrap">${v.fecha_hora}</td>
+          <td class="py-3.5 px-4">
+            <p class="font-medium text-[#1D1D1F]">${v.cliente_nombre}</p>
+            <p class="text-[11px] text-[#6E6E73]">${v.cliente_cedula} · ${v.cliente_telefono || ''}</p>
+          </td>
+          <td class="py-3.5 px-4 text-xs">
+            ${(v.detalles || []).map(d => `${d.cantidad}x ${d.nombre_producto}`).join('<br>')}
+          </td>
+          <td class="py-3.5 px-4 text-xs">${v.metodo_pago}</td>
+          <td class="py-3.5 px-4 font-semibold">${formatUSD(v.total)}</td>
+          <td class="py-3.5 px-4">
+            <select onchange="updateSaleStatus('${v.id_venta}', this.value)"
+              class="text-xs font-medium px-2.5 py-1 rounded-full bg-[#F5F5F7] border border-[#D2D2D7]/60">
+              <option value="PAGADO" ${v.estado === 'PAGADO' ? 'selected' : ''}>PAGADO</option>
+              <option value="PENDIENTE" ${v.estado === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
+              <option value="ANULADO" ${v.estado === 'ANULADO' ? 'selected' : ''}>ANULADO</option>
+            </select>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // --- GESTIÓN DE CLIENTES ---
+    function saveClientForm(e) {
+      e.preventDefault();
+      const editId = document.getElementById('cli-edit-id').value;
+      const data = {
+        cedula_ruc: document.getElementById('cli-cedula').value.trim(),
+        nombres: document.getElementById('cli-nombres').value.trim(),
+        telefono: document.getElementById('cli-telefono').value.trim(),
+        correo: document.getElementById('cli-correo').value.trim(),
+        direccion: document.getElementById('cli-direccion').value.trim(),
+        activo: true
+      };
+
+      if (editId) {
+        const idx = state.clientes.findIndex(c => c.id_cliente === editId);
+        if (idx !== -1) state.clientes[idx] = { ...state.clientes[idx], ...data };
+        showToast('Cliente actualizado.', 'success');
+      } else {
+        state.clientes.unshift({
+          id_cliente: 'CLI-' + String(state.clientes.length + 1).padStart(3, '0'),
+          fecha_registro: new Date().toISOString().slice(0, 10),
+          ...data
+        });
+        showToast('Cliente registrado exitosamente.', 'success');
+      }
+
+      resetClientForm();
+      saveState(true);
+      renderAdminClients();
+    }
+
+    function editClient(idCliente) {
+      const c = state.clientes.find(x => x.id_cliente === idCliente);
+      if (!c) return;
+      document.getElementById('cli-edit-id').value = c.id_cliente;
+      document.getElementById('cli-cedula').value = c.cedula_ruc;
+      document.getElementById('cli-nombres').value = c.nombres;
+      document.getElementById('cli-telefono').value = c.telefono;
+      document.getElementById('cli-correo').value = c.correo || '';
+      document.getElementById('cli-direccion').value = c.direccion || '';
+    }
+
+    function resetClientForm() {
+      document.getElementById('cli-edit-id').value = '';
+      document.getElementById('cli-cedula').value = '';
+      document.getElementById('cli-nombres').value = '';
+      document.getElementById('cli-telefono').value = '';
+      document.getElementById('cli-correo').value = '';
+      document.getElementById('cli-direccion').value = '';
+    }
+
+    function renderAdminClients() {
+      const tbody = document.getElementById('admin-clients-tbody');
+      tbody.innerHTML = state.clientes.map(c => `
+        <tr>
+          <td class="py-3.5 px-4 font-mono text-xs">${c.cedula_ruc}</td>
+          <td class="py-3.5 px-4 font-medium text-[#1D1D1F]">${c.nombres}</td>
+          <td class="py-3.5 px-4 text-xs">${c.telefono}</td>
+          <td class="py-3.5 px-4 text-xs text-[#6E6E73]">${c.correo || '-'}</td>
+          <td class="py-3.5 px-4 text-xs text-[#6E6E73]">${c.direccion || '-'}</td>
+          <td class="py-3.5 px-4 text-right">
+            <button onclick="editClient('${c.id_cliente}')" class="text-xs font-medium text-[#0071E3] hover:underline">Editar</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // --- CONFIGURACIÓN & GOOGLE SHEETS INTEGRATION ---
+    const APPS_SCRIPT_CODE = `// Pega este código en tu Google Sheet (Extensiones > Apps Script) y publica como Aplicación Web (Acceso: Cualquier persona)
+const SHEET_ID = '1lIv8OpDY2DlXEJEtIDBCHpDoN1RHHTsQ_iijjoSzfyE';
+
+function doPost(e) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const payload = JSON.parse(e.postData.contents);
+  
+  if (payload.productos) syncTable(ss, 'PRODUCTOS', ['id_producto','codigo','codigo_barras','nombre','categoria','descripcion','costo_unitario','precio_venta','stock_actual','stock_minimo','unidad','activo','fecha_creacion','imagen_url'], payload.productos);
+  if (payload.clientes) syncTable(ss, 'CLIENTES', ['id_cliente','cedula_ruc','nombres','telefono','correo','direccion','fecha_registro','activo'], payload.clientes);
+  if (payload.ventas) syncTable(ss, 'VENTAS', ['id_venta','numero_venta','fecha_hora','id_cliente','subtotal','descuento','impuesto','total','metodo_pago','estado','observacion'], payload.ventas);
+  if (payload.movimientos) syncTable(ss, 'MOVIMIENTOS', ['id_movimiento','fecha_hora','id_producto','tipo','cantidad','stock_anterior','stock_nuevo','motivo'], payload.movimientos);
+
+  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' })).setMimeType(ContentService.MimeType.JSON);
+}
+
+function syncTable(ss, sheetName, headers, rows) {
+  let sheet = ss.getSheetByName(sheetName) || ss.insertSheet(sheetName);
+  sheet.clear();
+  sheet.appendRow(headers);
+  rows.forEach(item => {
+    sheet.appendRow(headers.map(h => item[h] !== undefined ? item[h] : ''));
+  });
+}`;
+
+    function renderAdminConfigTab() {
+      const cfg = state.configuracion;
+      document.getElementById('cfg-impuesto').value = cfg.impuesto_porcentaje ?? 0;
+      document.getElementById('cfg-whatsapp').value = cfg.whatsapp || '';
+      document.getElementById('cfg-anuncio').value = cfg.anuncio || '';
+      document.getElementById('cfg-hero-titulo').value = cfg.hero_titulo || '';
+      document.getElementById('cfg-transferencia').value = cfg.datos_transferencia || '';
+      document.getElementById('cfg-admin-pass').value = cfg.admin_password || 'admin123';
+      document.getElementById('cfg-sheets-url').value = cfg.sheets_webapp_url || '';
+      document.getElementById('apps-script-snippet').value = APPS_SCRIPT_CODE;
+    }
+
+    function saveStoreConfig(e) {
+      e.preventDefault();
+      state.configuracion.impuesto_porcentaje = parseFloat(document.getElementById('cfg-impuesto').value) || 0;
+      state.configuracion.whatsapp = document.getElementById('cfg-whatsapp').value.trim();
+      state.configuracion.anuncio = document.getElementById('cfg-anuncio').value.trim();
+      state.configuracion.hero_titulo = document.getElementById('cfg-hero-titulo').value.trim();
+      state.configuracion.datos_transferencia = document.getElementById('cfg-transferencia').value.trim();
+      state.configuracion.admin_password = document.getElementById('cfg-admin-pass').value.trim() || 'admin123';
+      saveState(true);
+      showToast('Configuración de tienda guardada.', 'success');
+    }
+
+    function saveSheetsUrlAndSync() {
+      const url = document.getElementById('cfg-sheets-url').value.trim();
+      state.configuracion.sheets_webapp_url = url;
+      saveState(false);
+      if (url) {
+        syncWithGoogleSheets(true);
+      } else {
+        showToast('URL limpiada. Guardando localmente.');
+      }
+    }
+
+    async function syncWithGoogleSheets(manual = false) {
+      const url = state.configuracion.sheets_webapp_url;
+      if (!url) {
+        if (manual) showToast('Configura primero la URL del Web App en la pestaña Google Sheets & Config.', 'error');
+        return;
+      }
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            productos: state.productos.map(p => ({ ...p, imagenes_json: JSON.stringify(p.imagenes || []) })),
+            clientes: state.clientes,
+            ventas: state.ventas,
+            movimientos: state.movimientos
+          })
+        });
+        if (manual) showToast('Datos enviados a tu Google Sheet ROUMANS.', 'success');
+      } catch (err) {
+        if (manual) showToast('No se pudo conectar con Google Sheets. Verifica la URL.', 'error');
+      }
+    }
+
+    function copyAppsScriptCode() {
+      const el = document.getElementById('apps-script-snippet');
+      el.select();
+      document.execCommand('copy');
+      showToast('Código Apps Script copiado al portapapeles.', 'success');
+    }
+
+    function exportAllDataJson() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `ROUMANS_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+    }
+
+    // =========================================================================
+    // 8. INICIALIZACIÓN
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      applyConfigToPublicUI();
+      renderPublicCategories();
+      renderPublicCatalog();
+      updateCartBadge();
+    });
+  </script>
+</body>
+</html>
